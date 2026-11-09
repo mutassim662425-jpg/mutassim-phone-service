@@ -220,4 +220,39 @@ public class BillingStoreTests : IAsyncLifetime
         _store = await BillingStore.OpenFileAsync(_file);
         Assert.Equal(42, (await _store.GetAccountAsync(tech.Id))!.Balance);
     }
+
+    // ---- self-service registration (start-up window) --------------------
+
+    [Fact]
+    public async Task Self_registration_creates_a_zero_balance_technician_that_can_log_in()
+    {
+        var reg = await _store.RegisterAsync("customer@example.com", "cust-pass-1");
+        Assert.True(reg.Ok);
+        Assert.Equal(AccountRole.Technician, reg.Value!.Role);
+        Assert.Equal(0, reg.Value.Balance);
+
+        // It can log in...
+        var login = await _store.LoginAsync("customer@example.com", "cust-pass-1");
+        Assert.True(login.Ok);
+        // ...but with no credits it cannot run a paid operation.
+        Assert.Equal(BillingError.InsufficientBalance, (await _store.ChargeAsync(reg.Value.Id, "samsung.flash", "x")).Error);
+        // ...while a free operation still works.
+        Assert.True((await _store.ChargeAsync(reg.Value.Id, "read.info", "x")).Ok);
+    }
+
+    [Fact]
+    public async Task Self_registration_refuses_duplicate_and_weak_passwords()
+    {
+        Assert.True((await _store.RegisterAsync("dup@example.com", "good-pass-1")).Ok);
+        Assert.Equal(BillingError.DuplicateUsername, (await _store.RegisterAsync("DUP@example.com", "good-pass-2")).Error);
+        Assert.Equal(BillingError.InvalidCredentials, (await _store.RegisterAsync("weak@example.com", "123")).Error);
+    }
+
+    [Fact]
+    public async Task Self_registered_account_is_parented_to_the_admin()
+    {
+        var reg = await _store.RegisterAsync("child@example.com", "child-pass-1");
+        Assert.True(reg.Ok);
+        Assert.Equal(_admin, reg.Value!.ParentId);
+    }
 }

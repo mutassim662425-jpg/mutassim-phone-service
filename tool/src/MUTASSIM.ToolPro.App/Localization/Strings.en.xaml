@@ -372,6 +372,14 @@
     <sys:String x:Key="AtConsole.CommandHint">Type a read-only AT command, e.g. ATI</sys:String>
     <sys:String x:Key="AtConsole.Send">Send</sys:String>
     <sys:String x:Key="AtConsole.Clear">Clear</sys:String>
+    <sys:String x:Key="Login.Subtitle">Sign in to your account to use the tool.</sys:String>
+    <sys:String x:Key="Login.Email">Email</sys:String>
+    <sys:String x:Key="Login.Password">Password</sys:String>
+    <sys:String x:Key="Login.SignIn">Sign in</sys:String>
+    <sys:String x:Key="Login.CreateAccount">Create account</sys:String>
+    <sys:String x:Key="Login.NoAccount">Don't have an account?</sys:String>
+    <sys:String x:Key="Login.HaveAccount">Already have an account?</sys:String>
+    <sys:String x:Key="Login.NeedEmailPass">Enter an email and a password of 6+ characters.</sys:String>
     <sys:String x:Key="Account.OpenTip">Account and credits</sys:String>
     <sys:String x:Key="Account.SignedOut">Not signed in</sys:String>
     <sys:String x:Key="Account.Credits">credits</sys:String>

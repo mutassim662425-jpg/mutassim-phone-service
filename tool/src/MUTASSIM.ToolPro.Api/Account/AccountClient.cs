@@ -83,6 +83,13 @@ public sealed class AccountClient(HttpClient http)
     public Task<AccountDto> CreateAccountAsync(Uri server, string username, string password, string role, CancellationToken ct) =>
         Unwrap<AccountDto>(server, HttpMethod.Post, "api/accounts", new { username, password, role }, "account", ct);
 
+    /// <summary>Anonymous self-registration (start-up window). Creates a zero-balance technician account.</summary>
+    public async Task<AccountDto> RegisterAsync(Uri server, string username, string password, CancellationToken ct)
+    {
+        var e = await Send<JsonElement>(server, HttpMethod.Post, "api/auth/register", new { username, password }, auth: false, ct);
+        return e.GetProperty("account").Deserialize<AccountDto>(Json)!;
+    }
+
     public Task<List<AccountDto>> ChildrenAsync(Uri server, CancellationToken ct) =>
         Send<List<AccountDto>>(server, HttpMethod.Get, "api/accounts/children", null, auth: true, ct);
 

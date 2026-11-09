@@ -116,6 +116,38 @@ public sealed class BillingStore : IAsyncDisposable
         finally { _lock.Release(); }
     }
 
+    /// <summary>
+    /// Self-service registration for the tool's start-up window. Creates a <see cref="AccountRole.Technician"/>
+    /// account parented to the admin, with a ZERO balance — so a freshly self-registered customer can sign in and
+    /// use free operations, but cannot run any paid operation until a distributor or admin funds the account.
+    /// This is anonymous (no caller token); that is exactly why it only ever creates the lowest role with no credits.
+    /// </summary>
+    public async Task<BillingResult<Account>> RegisterAsync(string username, string password)
+    {
+        if (!PasswordHasher.IsStrongEnough(password)) return BillingResult<Account>.Fail(BillingError.InvalidCredentials);
+        if (string.IsNullOrWhiteSpace(username)) return BillingResult<Account>.Fail(BillingError.InvalidCredentials);
+
+        await _lock.WaitAsync();
+        try
+        {
+            await using var tx = (SqliteTransaction)await _db.BeginTransactionAsync();
+
+            if (await LoadByUsername(tx, username) is not null)
+                return BillingResult<Account>.Fail(BillingError.DuplicateUsername);
+
+            // Parent self-registered technicians to the admin. The admin is always seeded at server start.
+            if ((await Scalar(tx, "SELECT id FROM accounts WHERE role=0 LIMIT 1")) is not string adminIdText)
+                return BillingResult<Account>.Fail(BillingError.AccountNotFound);
+
+            var id = Guid.NewGuid();
+            await InsertAccount(tx, id, username.Trim(), PasswordHasher.Hash(password), AccountRole.Technician, Guid.Parse(adminIdText));
+            var created = await LoadAccount(tx, id);
+            await tx.CommitAsync();
+            return BillingResult<Account>.Success(created!);
+        }
+        finally { _lock.Release(); }
+    }
+
     public async Task<BillingResult<bool>> SetEnabledAsync(Guid actorId, Guid targetId, bool enabled)
     {
         await _lock.WaitAsync();

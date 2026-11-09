@@ -372,6 +372,14 @@
     <sys:String x:Key="AtConsole.CommandHint">اكتب أمر AT للقراءة فقط، مثل ATI</sys:String>
     <sys:String x:Key="AtConsole.Send">إرسال</sys:String>
     <sys:String x:Key="AtConsole.Clear">مسح</sys:String>
+    <sys:String x:Key="Login.Subtitle">سجّل الدخول إلى حسابك لاستخدام الأداة.</sys:String>
+    <sys:String x:Key="Login.Email">البريد الإلكتروني</sys:String>
+    <sys:String x:Key="Login.Password">كلمة السر</sys:String>
+    <sys:String x:Key="Login.SignIn">تسجيل الدخول</sys:String>
+    <sys:String x:Key="Login.CreateAccount">إنشاء حساب</sys:String>
+    <sys:String x:Key="Login.NoAccount">ليس لديك حساب؟</sys:String>
+    <sys:String x:Key="Login.HaveAccount">لديك حساب بالفعل؟</sys:String>
+    <sys:String x:Key="Login.NeedEmailPass">اكتب بريداً إلكترونياً وكلمة سر 6 أحرف فأكثر.</sys:String>
     <sys:String x:Key="Account.OpenTip">الحساب والرصيد</sys:String>
     <sys:String x:Key="Account.SignedOut">غير مسجّل</sys:String>
     <sys:String x:Key="Account.Credits">رصيد</sys:String>

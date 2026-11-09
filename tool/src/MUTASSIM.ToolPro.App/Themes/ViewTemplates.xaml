@@ -31,6 +31,7 @@
     <DataTemplate DataType="{x:Type vm:AssistViewModel}"><v:AssistView /></DataTemplate>
     <DataTemplate DataType="{x:Type vm:SamsungFlashViewModel}"><v:SamsungFlashView /></DataTemplate>
     <DataTemplate DataType="{x:Type vm:AccountViewModel}"><v:AccountView /></DataTemplate>
+    <DataTemplate DataType="{x:Type vm:AtConsoleViewModel}"><v:AtConsoleView /></DataTemplate>
     <DataTemplate DataType="{x:Type ws:WorkspaceViewModel}"><v:WorkspaceView /></DataTemplate>
     <DataTemplate DataType="{x:Type vm:InfoPanelViewModel}"><v:DeviceInfoCard /></DataTemplate>
 

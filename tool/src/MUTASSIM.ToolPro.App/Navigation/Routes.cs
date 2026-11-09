@@ -23,6 +23,7 @@ public static class Routes
     public const string Assist = "assist";
     public const string SamsungFlash = "samflash";
     public const string Account = "account";
+    public const string AtConsole = "atconsole";
 
     /// <summary>Page opened at start-up (the HOME button was removed).</summary>
     public const string Start = "ws.samsung";
@@ -39,6 +40,7 @@ public static class Routes
     [
         new(Account, "Nav.Account", "\uE77B"),
         new(Assist, "Nav.Assist", "\uE753"),
+        new(AtConsole, "Nav.AtConsole", "\uE756"),
         new(Devices, "Nav.DeviceManager", ""),
         new(Firmware, "Nav.Firmware", ""),
         new(Drivers, "Nav.UsbDrivers", ""),
@@ -63,6 +65,7 @@ public static class Routes
         navigation.Register(Assist, sp => sp.GetRequiredService<AssistViewModel>());
         navigation.Register(SamsungFlash, sp => sp.GetRequiredService<SamsungFlashViewModel>());
         navigation.Register(Account, sp => sp.GetRequiredService<AccountViewModel>());
+        navigation.Register(AtConsole, sp => sp.GetRequiredService<AtConsoleViewModel>());
         navigation.Register(Api, sp => ActivatorUtilities.CreateInstance<ModulePageViewModel>(
             sp, new[] { ModuleIds.ApiServices }, "Nav.Api"));
 

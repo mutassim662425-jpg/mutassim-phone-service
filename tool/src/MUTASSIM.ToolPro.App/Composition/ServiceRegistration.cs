@@ -131,6 +131,7 @@ public static class ServiceRegistration
         services.AddSingleton<OperationRunner>();
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<MainWindow>();
+        services.AddTransient<MUTASSIM.ToolPro.App.Views.LoginWindow>();
 
         services.AddTransient<DashboardViewModel>();
         services.AddTransient<DeviceManagerViewModel>();
@@ -144,6 +145,7 @@ public static class ServiceRegistration
         services.AddTransient<AssistViewModel>();
         services.AddTransient<SamsungFlashViewModel>();
         services.AddTransient<AccountViewModel>();
+        services.AddTransient<LoginViewModel>();
 
         return services;
     }

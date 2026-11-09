@@ -20,9 +20,9 @@ public sealed class FrpModule : ServiceModuleBase
     [
         Built("frp.state", "Detect whether account verification is requested (when exposed)", 6, "Implemented; awaiting real-device test"),
         Built("frp.info", "Show model and OS version", 6, "Implemented; awaiting real-device test"),
-        Planned("frp.diagnose", "Diagnose account-access problem", 6),
+        Built("frp.diagnose", "Diagnose account-access problem (official recovery path)", 6, "Backed by OfficialRecoveryGuide; awaiting real-device test"),
         Built("frp.guide", "Google account recovery guidance for the owner", 6, "Implemented; awaiting real-device test"),
-        Planned("frp.oem", "Manufacturer official procedure & proof-of-ownership checklist", 6),
+        Built("frp.oem", "Manufacturer official procedure & proof-of-ownership checklist", 6, "Backed by OfficialRecoveryGuide (per-brand)"),
         Planned("frp.ticket", "Service request tracking", 6),
         Unsupported("frp.bypass", "Unauthorised FRP bypass", "Not provided by design")
     ];

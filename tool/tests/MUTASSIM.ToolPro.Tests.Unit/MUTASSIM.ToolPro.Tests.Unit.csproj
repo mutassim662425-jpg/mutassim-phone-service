@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>$(EngineTargetFramework)</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <RootNamespace>MUTASSIM.ToolPro.Tests.Unit</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\MUTASSIM.ToolPro.Core\MUTASSIM.ToolPro.Core.csproj" />
+    <ProjectReference Include="..\..\src\MUTASSIM.ToolPro.Infrastructure\MUTASSIM.ToolPro.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\MUTASSIM.ToolPro.Database\MUTASSIM.ToolPro.Database.csproj" />
+    <ProjectReference Include="..\..\src\MUTASSIM.ToolPro.DeviceManager\MUTASSIM.ToolPro.DeviceManager.csproj" />
+    <ProjectReference Include="..\..\src\MUTASSIM.ToolPro.Usb\MUTASSIM.ToolPro.Usb.csproj" />
+    <ProjectReference Include="..\..\src\MUTASSIM.ToolPro.Firmware\MUTASSIM.ToolPro.Firmware.csproj" />
+    <ProjectReference Include="..\..\src\MUTASSIM.ToolPro.Serial\MUTASSIM.ToolPro.Serial.csproj" />
+    <ProjectReference Include="..\..\src\MUTASSIM.ToolPro.Updates\MUTASSIM.ToolPro.Updates.csproj" />
+    <ProjectReference Include="..\..\src\MUTASSIM.ToolPro.Adb\MUTASSIM.ToolPro.Adb.csproj" />
+    <ProjectReference Include="..\..\src\MUTASSIM.ToolPro.Fastboot\MUTASSIM.ToolPro.Fastboot.csproj" />
+    <ProjectReference Include="..\..\src\MUTASSIM.ToolPro.Samsung\MUTASSIM.ToolPro.Samsung.csproj" />
+    <ProjectReference Include="..\..\src\MUTASSIM.ToolPro.Xiaomi\MUTASSIM.ToolPro.Xiaomi.csproj" />
+    <ProjectReference Include="..\..\src\MUTASSIM.ToolPro.Huawei\MUTASSIM.ToolPro.Huawei.csproj" />
+    <ProjectReference Include="..\..\src\MUTASSIM.ToolPro.Honor\MUTASSIM.ToolPro.Honor.csproj" />
+    <ProjectReference Include="..\..\src\MUTASSIM.ToolPro.Qualcomm\MUTASSIM.ToolPro.Qualcomm.csproj" />
+    <ProjectReference Include="..\..\src\MUTASSIM.ToolPro.MediaTek\MUTASSIM.ToolPro.MediaTek.csproj" />
+    <ProjectReference Include="..\..\src\MUTASSIM.ToolPro.Apple\MUTASSIM.ToolPro.Apple.csproj" />
+    <ProjectReference Include="..\..\src\MUTASSIM.ToolPro.MultiBrand\MUTASSIM.ToolPro.MultiBrand.csproj" />
+    <ProjectReference Include="..\..\src\MUTASSIM.ToolPro.Assistance\MUTASSIM.ToolPro.Assistance.csproj" />
+    <ProjectReference Include="..\..\src\MUTASSIM.ToolPro.Api\MUTASSIM.ToolPro.Api.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Fixtures\**\*" Exclude="Fixtures\**\*.py" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

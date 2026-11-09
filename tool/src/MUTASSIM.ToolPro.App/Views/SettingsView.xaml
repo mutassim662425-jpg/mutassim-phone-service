@@ -1,0 +1,134 @@
+<UserControl x:Class="MUTASSIM.ToolPro.App.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <UserControl.Resources>
+        <Style x:Key="Field" TargetType="StackPanel">
+            <Setter Property="Margin" Value="0,0,0,14" />
+        </Style>
+    </UserControl.Resources>
+
+    <ScrollViewer Style="{StaticResource PageRoot}">
+        <StackPanel MaxWidth="860" HorizontalAlignment="Left">
+            <TextBlock Text="{DynamicResource Nav.Settings}" Style="{StaticResource Text.H1}" />
+            <TextBlock Text="{DynamicResource Settings.Subtitle}" Style="{StaticResource Text.Muted}" Margin="0,4,0,16" />
+
+            <!-- General -->
+            <Border Style="{StaticResource Card}" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource Settings.General}" Style="{StaticResource Text.H2}" Margin="0,0,0,12" />
+                    <StackPanel Style="{StaticResource Field}">
+                        <TextBlock Text="{DynamicResource Settings.Language}" Style="{StaticResource Text.Label}" />
+                        <ComboBox Width="220" HorizontalAlignment="Left" ItemsSource="{Binding Languages}"
+                                  SelectedItem="{Binding SelectedLanguage}" DisplayMemberPath="Name" />
+                    </StackPanel>
+                    <StackPanel Style="{StaticResource Field}">
+                        <TextBlock Text="{DynamicResource Settings.ScanInterval}" Style="{StaticResource Text.Label}" />
+                        <TextBox Width="120" HorizontalAlignment="Left" Text="{Binding ScanInterval}" />
+                    </StackPanel>
+                    <StackPanel Style="{StaticResource Field}" Margin="0">
+                        <TextBlock Text="{DynamicResource Settings.DataFolder}" Style="{StaticResource Text.Label}" />
+                        <DockPanel>
+                            <Button DockPanel.Dock="Right" Command="{Binding OpenDataFolderCommand}" Margin="8,0,0,0">
+                                <TextBlock Text="{DynamicResource Common.Open}" />
+                            </Button>
+                            <TextBox Text="{Binding DataFolder, Mode=OneWay}" IsReadOnly="True" FlowDirection="LeftToRight" />
+                        </DockPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Brand images -->
+            <Border Style="{StaticResource Card}" Margin="0,0,0,16">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Right" VerticalAlignment="Center">
+                        <Button Command="{Binding OpenBrandsFolderCommand}" Margin="0,0,0,4">
+                            <TextBlock Text="{DynamicResource Settings.BrandsFolder}" />
+                        </Button>
+                        <Button Command="{Binding OpenDevicesFolderCommand}" Margin="0,0,0,4">
+                            <TextBlock Text="{DynamicResource Settings.DevicesFolder}" />
+                        </Button>
+                        <Button Command="{Binding OpenCatalogFolderCommand}" Margin="0,0,0,4">
+                            <TextBlock Text="{DynamicResource Settings.CatalogFolder}" />
+                        </Button>
+                        <Button Style="{StaticResource Btn.Gold}" Command="{Binding UpdateCatalogCommand}">
+                            <TextBlock Text="{DynamicResource Ws.UpdateCatalog}" />
+                        </Button>
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource Settings.Brands}" Style="{StaticResource Text.H2}" Margin="0,0,0,4" />
+                        <TextBlock Text="{DynamicResource Settings.BrandsHint}" Style="{StaticResource Text.Muted}" />
+                        <TextBlock Text="{DynamicResource Settings.DevicesHint}" Style="{StaticResource Text.Muted}" Margin="0,6,0,0" />
+                        <TextBlock Text="{DynamicResource Settings.CatalogHint}" Style="{StaticResource Text.Muted}" Margin="0,6,0,0" />
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+
+            <!-- Tools -->
+            <Border Style="{StaticResource Card}" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource Settings.Tools}" Style="{StaticResource Text.H2}" Margin="0,0,0,4" />
+                    <TextBlock Text="{DynamicResource Settings.ToolsHint}" Style="{StaticResource Text.Muted}" Margin="0,0,0,12" />
+                    <StackPanel Style="{StaticResource Field}">
+                        <TextBlock Text="{DynamicResource Settings.PlatformTools}" Style="{StaticResource Text.Label}" />
+                        <DockPanel>
+                            <Button DockPanel.Dock="Right" Command="{Binding BrowsePlatformToolsCommand}" Margin="8,0,0,0">
+                                <TextBlock Text="{DynamicResource Common.Browse}" />
+                            </Button>
+                            <TextBox Text="{Binding PlatformToolsPath, UpdateSourceTrigger=PropertyChanged}" FlowDirection="LeftToRight" />
+                        </DockPanel>
+                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="110" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="adb" Style="{StaticResource Text.Muted}" />
+                        <TextBlock Grid.Column="1" Text="{Binding AdbPath}" FlowDirection="LeftToRight" TextTrimming="CharacterEllipsis" />
+                        <TextBlock Grid.Row="1" Text="fastboot" Style="{StaticResource Text.Muted}" Margin="0,4,0,0" />
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding FastbootPath}" FlowDirection="LeftToRight"
+                                   TextTrimming="CharacterEllipsis" Margin="0,4,0,0" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Servers -->
+            <Border Style="{StaticResource Card}" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource Settings.Servers}" Style="{StaticResource Text.H2}" Margin="0,0,0,4" />
+                    <TextBlock Text="{DynamicResource Settings.ServersHint}" Style="{StaticResource Text.Muted}" Margin="0,0,0,12" />
+                    <StackPanel Style="{StaticResource Field}">
+                        <TextBlock Text="{DynamicResource Settings.LicenseServer}" Style="{StaticResource Text.Label}" />
+                        <TextBox Text="{Binding LicenseServerUrl, UpdateSourceTrigger=PropertyChanged}" FlowDirection="LeftToRight" />
+                    </StackPanel>
+                    <StackPanel Style="{StaticResource Field}">
+                        <TextBlock Text="{DynamicResource Settings.UpdateFeed}" Style="{StaticResource Text.Label}" />
+                        <TextBox Text="{Binding UpdateFeedUrl, UpdateSourceTrigger=PropertyChanged}" FlowDirection="LeftToRight" />
+                    </StackPanel>
+                    <StackPanel Style="{StaticResource Field}" Margin="0">
+                        <TextBlock Text="{DynamicResource Settings.StatusServer}" Style="{StaticResource Text.Label}" />
+                        <TextBox Text="{Binding StatusServerUrl, UpdateSourceTrigger=PropertyChanged}" FlowDirection="LeftToRight" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Security -->
+            <Border Style="{StaticResource Card}" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource Settings.Security}" Style="{StaticResource Text.H2}" Margin="0,0,0,12" />
+                    <CheckBox IsChecked="{Binding AllowUnsignedPlugins}">
+                        <TextBlock Text="{DynamicResource Settings.AllowUnsigned}" TextWrapping="Wrap" />
+                    </CheckBox>
+                    <TextBlock Text="{DynamicResource Settings.AllowUnsignedHint}" Style="{StaticResource Text.Muted}" Margin="26,4,0,0" />
+                </StackPanel>
+            </Border>
+
+            <Button Style="{StaticResource Btn.Primary}" Command="{Binding SaveCommand}" HorizontalAlignment="Left" Padding="28,9">
+                <TextBlock Text="{DynamicResource Common.Save}" />
+            </Button>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

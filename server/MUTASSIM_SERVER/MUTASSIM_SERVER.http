@@ -1,0 +1,29 @@
+@host = http://localhost:5179
+# If the server runs with MUTASSIM_API_KEY, put the same value here:
+@apiKey = 
+
+GET {{host}}/api/health
+Accept: application/json
+
+###
+
+POST {{host}}/api/commands
+Content-Type: application/json
+X-MUTASSIM-KEY: {{apiKey}}
+
+{ "deviceId": "TEST-DEVICE-001", "action": "PING" }
+
+###
+
+GET {{host}}/api/commands?deviceId=TEST-DEVICE-001
+X-MUTASSIM-KEY: {{apiKey}}
+
+###
+
+GET {{host}}/api/devices
+X-MUTASSIM-KEY: {{apiKey}}
+
+###
+
+GET {{host}}/api/agents
+X-MUTASSIM-KEY: {{apiKey}}

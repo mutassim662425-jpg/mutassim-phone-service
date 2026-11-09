@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>$(EngineTargetFramework)</TargetFramework>
+    <RootNamespace>MUTASSIM.ToolPro.Xiaomi</RootNamespace>
+    <Description>Xiaomi / Redmi / POCO brand module.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MUTASSIM.ToolPro.Core\MUTASSIM.ToolPro.Core.csproj" />
+  </ItemGroup>
+</Project>

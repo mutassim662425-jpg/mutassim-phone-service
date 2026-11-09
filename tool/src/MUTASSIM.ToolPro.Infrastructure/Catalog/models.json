@@ -1,0 +1,805 @@
+[
+ {
+  "brand": "ws.xiaomi",
+  "series": "Redmi Note",
+  "name": "Redmi Note 13 Pro+ 5G",
+  "codename": "zircon",
+  "chipset": "Dimensity 7200-Ultra"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "Redmi Note",
+  "name": "Redmi Note 13 Pro 5G",
+  "codename": "garnet",
+  "chipset": "Snapdragon 7s Gen 2"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "Redmi Note",
+  "name": "Redmi Note 13 Pro 4G",
+  "codename": "emerald",
+  "chipset": "Helio G99-Ultra"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "Redmi Note",
+  "name": "Redmi Note 13 5G",
+  "codename": "gold",
+  "chipset": "Dimensity 6080"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "Redmi Note",
+  "name": "Redmi Note 13 4G",
+  "codename": "sapphire",
+  "chipset": "Snapdragon 685"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "Redmi Note",
+  "name": "Redmi Note 12 Pro+ 5G",
+  "codename": "rubypro",
+  "chipset": "Dimensity 1080"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "Redmi Note",
+  "name": "Redmi Note 12 Pro 5G",
+  "codename": "ruby",
+  "chipset": "Dimensity 1080"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "Redmi Note",
+  "name": "Redmi Note 12 5G",
+  "codename": "sunstone",
+  "chipset": "Snapdragon 4 Gen 1"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "Redmi Note",
+  "name": "Redmi Note 12 4G",
+  "codename": "topaz",
+  "chipset": "Snapdragon 685"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "Redmi Note",
+  "name": "Redmi Note 11 Pro 5G",
+  "codename": "veux",
+  "chipset": "Snapdragon 695"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "Redmi Note",
+  "name": "Redmi Note 11",
+  "codename": "spes",
+  "chipset": "Snapdragon 680"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "Redmi Note",
+  "name": "Redmi Note 10 Pro",
+  "codename": "sweet",
+  "chipset": "Snapdragon 732G"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "Redmi Note",
+  "name": "Redmi Note 10",
+  "codename": "mojito",
+  "chipset": "Snapdragon 678"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "Redmi Note",
+  "name": "Redmi Note 9",
+  "codename": "merlin",
+  "chipset": "Helio G85"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "Redmi Note",
+  "name": "Redmi Note 8",
+  "codename": "ginkgo",
+  "chipset": "Snapdragon 665"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "Redmi",
+  "name": "Redmi 13C",
+  "codename": "gale",
+  "chipset": "Helio G85"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "Redmi",
+  "name": "Redmi 12",
+  "codename": "fire",
+  "chipset": "Helio G88"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "Redmi",
+  "name": "Redmi 10",
+  "codename": "selene",
+  "chipset": "Helio G88"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "Redmi",
+  "name": "Redmi 9A",
+  "codename": "dandelion",
+  "chipset": "Helio G25"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "Redmi",
+  "name": "Redmi A3",
+  "codename": "blue",
+  "chipset": "Helio G36"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "POCO",
+  "name": "POCO F6",
+  "codename": "peridot",
+  "chipset": "Snapdragon 8s Gen 3"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "POCO",
+  "name": "POCO X6 Pro 5G",
+  "codename": "duchamp",
+  "chipset": "Dimensity 8300-Ultra"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "POCO",
+  "name": "POCO F5 Pro",
+  "codename": "mondrian",
+  "chipset": "Snapdragon 8+ Gen 1"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "POCO",
+  "name": "POCO F5",
+  "codename": "marble",
+  "chipset": "Snapdragon 7+ Gen 2"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "POCO",
+  "name": "POCO X5 Pro 5G",
+  "codename": "redwood",
+  "chipset": "Snapdragon 778G"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "POCO",
+  "name": "POCO X5 5G",
+  "codename": "moonstone",
+  "chipset": "Snapdragon 695"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "POCO",
+  "name": "POCO F3",
+  "codename": "alioth",
+  "chipset": "Snapdragon 870"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "POCO",
+  "name": "POCO X3 Pro",
+  "codename": "vayu",
+  "chipset": "Snapdragon 860"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "POCO",
+  "name": "POCO X3 NFC",
+  "codename": "surya",
+  "chipset": "Snapdragon 732G"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "Xiaomi",
+  "name": "Xiaomi 14",
+  "codename": "houji",
+  "chipset": "Snapdragon 8 Gen 3"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "Xiaomi",
+  "name": "Xiaomi 13 Pro",
+  "codename": "nuwa",
+  "chipset": "Snapdragon 8 Gen 2"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "Xiaomi",
+  "name": "Xiaomi 13",
+  "codename": "fuxi",
+  "chipset": "Snapdragon 8 Gen 2"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "Xiaomi",
+  "name": "Xiaomi 12",
+  "codename": "cupid",
+  "chipset": "Snapdragon 8 Gen 1"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "Xiaomi",
+  "name": "Xiaomi 11T Pro",
+  "codename": "vili",
+  "chipset": "Snapdragon 888"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "Xiaomi",
+  "name": "Xiaomi 11T",
+  "codename": "agate",
+  "chipset": "Dimensity 1200"
+ },
+ {
+  "brand": "ws.xiaomi",
+  "series": "Xiaomi",
+  "name": "Mi 11 Lite 5G",
+  "codename": "renoir",
+  "chipset": "Snapdragon 780G"
+ },
+ {
+  "brand": "ws.samsung",
+  "series": "Galaxy A",
+  "name": "Galaxy A55 5G",
+  "model": "SM-A556B",
+  "chipset": "Exynos 1480"
+ },
+ {
+  "brand": "ws.samsung",
+  "series": "Galaxy A",
+  "name": "Galaxy A54 5G",
+  "model": "SM-A546B",
+  "chipset": "Exynos 1380"
+ },
+ {
+  "brand": "ws.samsung",
+  "series": "Galaxy A",
+  "name": "Galaxy A53 5G",
+  "model": "SM-A536B",
+  "chipset": "Exynos 1280"
+ },
+ {
+  "brand": "ws.samsung",
+  "series": "Galaxy A",
+  "name": "Galaxy A52",
+  "model": "SM-A525F",
+  "chipset": "Snapdragon 720G"
+ },
+ {
+  "brand": "ws.samsung",
+  "series": "Galaxy A",
+  "name": "Galaxy A51",
+  "model": "SM-A515F",
+  "chipset": "Exynos 9611"
+ },
+ {
+  "brand": "ws.samsung",
+  "series": "Galaxy A",
+  "name": "Galaxy A34 5G",
+  "model": "SM-A346B",
+  "chipset": "Dimensity 1080"
+ },
+ {
+  "brand": "ws.samsung",
+  "series": "Galaxy A",
+  "name": "Galaxy A32",
+  "model": "SM-A325F",
+  "chipset": "Helio G80"
+ },
+ {
+  "brand": "ws.samsung",
+  "series": "Galaxy A",
+  "name": "Galaxy A24",
+  "model": "SM-A245F",
+  "chipset": "Helio G99"
+ },
+ {
+  "brand": "ws.samsung",
+  "series": "Galaxy A",
+  "name": "Galaxy A15",
+  "model": "SM-A155F",
+  "chipset": "Helio G99"
+ },
+ {
+  "brand": "ws.samsung",
+  "series": "Galaxy A",
+  "name": "Galaxy A14",
+  "model": "SM-A145F",
+  "chipset": "Helio G80"
+ },
+ {
+  "brand": "ws.samsung",
+  "series": "Galaxy A",
+  "name": "Galaxy A12",
+  "model": "SM-A125F",
+  "chipset": "Helio P35"
+ },
+ {
+  "brand": "ws.samsung",
+  "series": "Galaxy S",
+  "name": "Galaxy S24",
+  "model": "SM-S921B",
+  "chipset": "Exynos 2400"
+ },
+ {
+  "brand": "ws.samsung",
+  "series": "Galaxy S",
+  "name": "Galaxy S23 Ultra",
+  "model": "SM-S918B",
+  "chipset": "Snapdragon 8 Gen 2"
+ },
+ {
+  "brand": "ws.samsung",
+  "series": "Galaxy S",
+  "name": "Galaxy S23",
+  "model": "SM-S911B",
+  "chipset": "Snapdragon 8 Gen 2"
+ },
+ {
+  "brand": "ws.samsung",
+  "series": "Galaxy S",
+  "name": "Galaxy S22",
+  "model": "SM-S901B",
+  "chipset": "Exynos 2200"
+ },
+ {
+  "brand": "ws.samsung",
+  "series": "Galaxy S",
+  "name": "Galaxy S21",
+  "model": "SM-G991B",
+  "chipset": "Exynos 2100"
+ },
+ {
+  "brand": "ws.samsung",
+  "series": "Galaxy Note",
+  "name": "Galaxy Note20",
+  "model": "SM-N980F",
+  "chipset": "Exynos 990"
+ },
+ {
+  "brand": "ws.huawei",
+  "series": "Huawei",
+  "name": "Huawei P30 Pro",
+  "model": "VOG-L29",
+  "chipset": "Kirin 980"
+ },
+ {
+  "brand": "ws.huawei",
+  "series": "Huawei",
+  "name": "Huawei P30",
+  "model": "ELE-L29",
+  "chipset": "Kirin 980"
+ },
+ {
+  "brand": "ws.huawei",
+  "series": "Huawei",
+  "name": "Huawei Mate 20 Pro",
+  "model": "LYA-L29",
+  "chipset": "Kirin 980"
+ },
+ {
+  "brand": "ws.huawei",
+  "series": "Huawei",
+  "name": "Huawei P40 Lite",
+  "model": "JNY-LX1",
+  "chipset": "Kirin 810"
+ },
+ {
+  "brand": "ws.huawei",
+  "series": "Huawei",
+  "name": "Huawei nova 5T",
+  "model": "YAL-L21",
+  "chipset": "Kirin 980"
+ },
+ {
+  "brand": "ws.huawei",
+  "series": "Huawei",
+  "name": "Huawei Y9 Prime 2019",
+  "model": "STK-L21",
+  "chipset": "Kirin 710F"
+ },
+ {
+  "brand": "ws.huawei",
+  "series": "Honor",
+  "name": "Honor Magic5 Pro",
+  "model": "PGT-N19",
+  "chipset": "Snapdragon 8 Gen 2"
+ },
+ {
+  "brand": "ws.huawei",
+  "series": "Honor",
+  "name": "Honor 90",
+  "model": "REA-NX9",
+  "chipset": "Snapdragon 7 Gen 1 Accelerated"
+ },
+ {
+  "brand": "ws.huawei",
+  "series": "Honor",
+  "name": "Honor 50",
+  "model": "NTH-NX9",
+  "chipset": "Snapdragon 778G"
+ },
+ {
+  "brand": "ws.huawei",
+  "series": "Honor",
+  "name": "Honor X9b",
+  "model": "ALI-NX1",
+  "chipset": "Snapdragon 6 Gen 1"
+ },
+ {
+  "brand": "ws.huawei",
+  "series": "Honor",
+  "name": "Honor X8",
+  "model": "TFY-LX1",
+  "chipset": "Snapdragon 680"
+ },
+ {
+  "brand": "ws.oppo",
+  "series": "OPPO",
+  "name": "OPPO Reno10 5G",
+  "model": "CPH2531",
+  "chipset": "Dimensity 7050"
+ },
+ {
+  "brand": "ws.oppo",
+  "series": "OPPO",
+  "name": "OPPO Reno8 5G",
+  "model": "CPH2359",
+  "chipset": "Dimensity 1300"
+ },
+ {
+  "brand": "ws.oppo",
+  "series": "OPPO",
+  "name": "OPPO A78 5G",
+  "model": "CPH2483",
+  "chipset": "Dimensity 700"
+ },
+ {
+  "brand": "ws.oppo",
+  "series": "OPPO",
+  "name": "OPPO A54",
+  "model": "CPH2239",
+  "chipset": "Helio G35"
+ },
+ {
+  "brand": "ws.oppo",
+  "series": "OPPO",
+  "name": "OPPO A17",
+  "model": "CPH2477",
+  "chipset": "Helio G35"
+ },
+ {
+  "brand": "ws.oppo",
+  "series": "realme",
+  "name": "realme 11 Pro 5G",
+  "model": "RMX3771",
+  "chipset": "Dimensity 7050"
+ },
+ {
+  "brand": "ws.oppo",
+  "series": "realme",
+  "name": "realme GT Master Edition",
+  "model": "RMX3360",
+  "chipset": "Snapdragon 778G"
+ },
+ {
+  "brand": "ws.oppo",
+  "series": "realme",
+  "name": "realme 8",
+  "model": "RMX3085",
+  "chipset": "Helio G95"
+ },
+ {
+  "brand": "ws.oppo",
+  "series": "realme",
+  "name": "realme C55",
+  "model": "RMX3710",
+  "chipset": "Helio G88"
+ },
+ {
+  "brand": "ws.oppo",
+  "series": "realme",
+  "name": "realme C35",
+  "model": "RMX3511",
+  "chipset": "Unisoc T616"
+ },
+ {
+  "brand": "ws.oppo",
+  "series": "realme",
+  "name": "realme narzo 50A",
+  "model": "RMX3430",
+  "chipset": "Helio G85"
+ },
+ {
+  "brand": "ws.vivo",
+  "series": "vivo",
+  "name": "vivo V27",
+  "model": "V2246",
+  "chipset": "Dimensity 7200"
+ },
+ {
+  "brand": "ws.vivo",
+  "series": "vivo",
+  "name": "vivo V23 5G",
+  "model": "V2130",
+  "chipset": "Dimensity 920"
+ },
+ {
+  "brand": "ws.vivo",
+  "series": "vivo",
+  "name": "vivo Y36",
+  "model": "V2247",
+  "chipset": "Snapdragon 680"
+ },
+ {
+  "brand": "ws.vivo",
+  "series": "vivo",
+  "name": "vivo Y21",
+  "model": "V2111",
+  "chipset": "Helio P35"
+ },
+ {
+  "brand": "ws.vivo",
+  "series": "vivo",
+  "name": "vivo Y20",
+  "model": "V2029",
+  "chipset": "Snapdragon 460"
+ },
+ {
+  "brand": "ws.vivo",
+  "series": "vivo",
+  "name": "vivo Y17s",
+  "model": "V2310",
+  "chipset": "Helio G85"
+ },
+ {
+  "brand": "ws.tecno",
+  "series": "TECNO",
+  "name": "TECNO CAMON 40 Pro 5G"
+ },
+ {
+  "brand": "ws.tecno",
+  "series": "TECNO",
+  "name": "TECNO SPARK 20 Pro",
+  "model": "KJ7",
+  "chipset": "Helio G99"
+ },
+ {
+  "brand": "ws.tecno",
+  "series": "TECNO",
+  "name": "TECNO SPARK 10 Pro",
+  "model": "KI7",
+  "chipset": "Helio G88"
+ },
+ {
+  "brand": "ws.tecno",
+  "series": "TECNO",
+  "name": "TECNO POVA 5",
+  "model": "LH7n",
+  "chipset": "Helio G99"
+ },
+ {
+  "brand": "ws.tecno",
+  "series": "Infinix",
+  "name": "Infinix ZERO 30 5G",
+  "model": "X6731",
+  "chipset": "Dimensity 8020"
+ },
+ {
+  "brand": "ws.tecno",
+  "series": "Infinix",
+  "name": "Infinix NOTE 30",
+  "model": "X6833B",
+  "chipset": "Helio G99"
+ },
+ {
+  "brand": "ws.tecno",
+  "series": "Infinix",
+  "name": "Infinix HOT 30",
+  "model": "X6831",
+  "chipset": "Helio G88"
+ },
+ {
+  "brand": "ws.tecno",
+  "series": "Infinix",
+  "name": "Infinix HOT 40i",
+  "model": "X6528",
+  "chipset": "Unisoc T606"
+ },
+ {
+  "brand": "ws.tecno",
+  "series": "Infinix",
+  "name": "Infinix SMART 8",
+  "model": "X6525",
+  "chipset": "Unisoc T606"
+ },
+ {
+  "brand": "ws.moto",
+  "series": "Motorola",
+  "name": "motorola edge 40",
+  "codename": "lyriq",
+  "chipset": "Dimensity 8020"
+ },
+ {
+  "brand": "ws.moto",
+  "series": "Motorola",
+  "name": "moto g84 5G",
+  "codename": "bangkk",
+  "chipset": "Snapdragon 695"
+ },
+ {
+  "brand": "ws.moto",
+  "series": "Motorola",
+  "name": "moto g54 5G",
+  "codename": "cancunf",
+  "chipset": "Dimensity 7020"
+ },
+ {
+  "brand": "ws.moto",
+  "series": "Motorola",
+  "name": "moto g32",
+  "codename": "devonf",
+  "chipset": "Snapdragon 680"
+ },
+ {
+  "brand": "ws.moto",
+  "series": "Nokia",
+  "name": "Nokia G42 5G",
+  "model": "TA-1581",
+  "chipset": "Snapdragon 480+"
+ },
+ {
+  "brand": "ws.moto",
+  "series": "Nokia",
+  "name": "Nokia X20",
+  "model": "TA-1341",
+  "chipset": "Snapdragon 480"
+ },
+ {
+  "brand": "ws.moto",
+  "series": "Nokia",
+  "name": "Nokia G21",
+  "model": "TA-1418",
+  "chipset": "Unisoc T606"
+ },
+ {
+  "brand": "ws.moto",
+  "series": "Nokia",
+  "name": "Nokia C32",
+  "model": "TA-1534",
+  "chipset": "Unisoc SC9863A"
+ },
+ {
+  "brand": "ws.other",
+  "series": "Google Pixel",
+  "name": "Pixel 8 Pro",
+  "codename": "husky",
+  "chipset": "Tensor G3"
+ },
+ {
+  "brand": "ws.other",
+  "series": "Google Pixel",
+  "name": "Pixel 8",
+  "codename": "shiba",
+  "chipset": "Tensor G3"
+ },
+ {
+  "brand": "ws.other",
+  "series": "Google Pixel",
+  "name": "Pixel 7 Pro",
+  "codename": "cheetah",
+  "chipset": "Tensor G2"
+ },
+ {
+  "brand": "ws.other",
+  "series": "Google Pixel",
+  "name": "Pixel 7",
+  "codename": "panther",
+  "chipset": "Tensor G2"
+ },
+ {
+  "brand": "ws.other",
+  "series": "Google Pixel",
+  "name": "Pixel 6a",
+  "codename": "bluejay",
+  "chipset": "Tensor"
+ },
+ {
+  "brand": "ws.other",
+  "series": "Google Pixel",
+  "name": "Pixel 6",
+  "codename": "oriole",
+  "chipset": "Tensor"
+ },
+ {
+  "brand": "ws.other",
+  "series": "OnePlus",
+  "name": "OnePlus 11",
+  "model": "CPH2449",
+  "chipset": "Snapdragon 8 Gen 2"
+ },
+ {
+  "brand": "ws.other",
+  "series": "OnePlus",
+  "name": "OnePlus Nord 2T",
+  "model": "CPH2399",
+  "chipset": "Dimensity 1300"
+ },
+ {
+  "brand": "ws.other",
+  "series": "OnePlus",
+  "name": "OnePlus Nord CE 3 Lite",
+  "model": "CPH2465",
+  "chipset": "Snapdragon 695"
+ },
+ {
+  "brand": "ws.apple",
+  "series": "iPhone",
+  "name": "iPhone 15 Pro",
+  "model": "iPhone16,1",
+  "chipset": "A17 Pro"
+ },
+ {
+  "brand": "ws.apple",
+  "series": "iPhone",
+  "name": "iPhone 15",
+  "model": "iPhone15,4",
+  "chipset": "A16 Bionic"
+ },
+ {
+  "brand": "ws.apple",
+  "series": "iPhone",
+  "name": "iPhone 14",
+  "model": "iPhone14,7",
+  "chipset": "A15 Bionic"
+ },
+ {
+  "brand": "ws.apple",
+  "series": "iPhone",
+  "name": "iPhone 13",
+  "model": "iPhone14,5",
+  "chipset": "A15 Bionic"
+ },
+ {
+  "brand": "ws.apple",
+  "series": "iPhone",
+  "name": "iPhone SE (3rd generation)",
+  "model": "iPhone14,6",
+  "chipset": "A15 Bionic"
+ },
+ {
+  "brand": "ws.apple",
+  "series": "iPhone",
+  "name": "iPhone 12",
+  "model": "iPhone13,2",
+  "chipset": "A14 Bionic"
+ },
+ {
+  "brand": "ws.apple",
+  "series": "iPhone",
+  "name": "iPhone 11",
+  "model": "iPhone12,1",
+  "chipset": "A13 Bionic"
+ },
+ {
+  "brand": "ws.apple",
+  "series": "iPhone",
+  "name": "iPhone XR",
+  "model": "iPhone11,8",
+  "chipset": "A12 Bionic"
+ }
+]

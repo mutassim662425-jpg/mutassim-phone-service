@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>$(EngineTargetFramework)</TargetFramework>
+    <RootNamespace>MUTASSIM.ToolPro.Core</RootNamespace>
+    <Description>Core contracts (devices, modules, operations, plugins). No UI, no I/O implementations.</Description>
+  </PropertyGroup>
+</Project>

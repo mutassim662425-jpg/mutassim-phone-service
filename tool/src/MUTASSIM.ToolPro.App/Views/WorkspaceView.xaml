@@ -1,0 +1,249 @@
+<UserControl x:Class="MUTASSIM.ToolPro.App.Views.WorkspaceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="8,8,4,6">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="8" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- ===================== LEFT: connected devices + model search ===================== -->
+        <Border Style="{StaticResource GoldPanel}" Padding="8">
+            <DockPanel>
+                <!-- Search -->
+                <TextBox DockPanel.Dock="Top" Style="{StaticResource SearchBox}" Tag="{DynamicResource Ws.SearchPlaceholder}"
+                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" FlowDirection="LeftToRight">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Escape" Command="{Binding ClearSearchCommand}" />
+                    </TextBox.InputBindings>
+                </TextBox>
+
+                <!-- Connected devices (click = target + live info) -->
+                <StackPanel DockPanel.Dock="Top" Margin="0,8,0,4">
+                    <TextBlock Text="{DynamicResource Ws.Connected}" Style="{StaticResource PanelHeader}" Margin="2,0,0,4" />
+                    <TextBlock Text="{DynamicResource Ws.NoConnected}" Foreground="{StaticResource Brush.TextMuted}" Margin="2,0,0,4"
+                               Visibility="{Binding DeviceContext.Devices.Count, Converter={StaticResource EmptyToCollapsed}, ConverterParameter=invert}" />
+                    <ItemsControl ItemsSource="{Binding DeviceContext.Devices}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="{StaticResource Brush.Surface2}" BorderBrush="{StaticResource Brush.Border}" BorderThickness="1"
+                                        CornerRadius="3" Padding="8,5" Margin="0,0,0,4" Cursor="Hand">
+                                    <Border.InputBindings>
+                                        <MouseBinding Gesture="LeftClick"
+                                                      Command="{Binding DataContext.ShowDeviceCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                      CommandParameter="{Binding}" />
+                                    </Border.InputBindings>
+                                    <DockPanel>
+                                        <Ellipse DockPanel.Dock="Left" Width="8" Height="8" Margin="0,0,8,0" Fill="{Binding Mode, Converter={StaticResource StatusBrush}}" />
+                                        <TextBlock DockPanel.Dock="Right" Text="{Binding Mode, Converter={StaticResource EnumText}}" FontSize="11"
+                                                   Foreground="{Binding Mode, Converter={StaticResource StatusBrush}}" Margin="6,0,0,0" />
+                                        <TextBlock FlowDirection="LeftToRight" TextTrimming="CharacterEllipsis">
+                                            <Run Text="{Binding DisplayManufacturer, Mode=OneWay}" Foreground="{StaticResource Brush.TextMuted}" />
+                                            <Run Text="{Binding DisplayName, Mode=OneWay}" FontWeight="SemiBold" />
+                                        </TextBlock>
+                                    </DockPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
+                <!-- Model database prompt (only the small built-in list is loaded) -->
+                <Border DockPanel.Dock="Top" Background="#2A1F0A" BorderBrush="{StaticResource Brush.Orange}" BorderThickness="1"
+                        CornerRadius="3" Padding="8" Margin="0,4,0,4"
+                        Visibility="{Binding IsCatalogSmall, Converter={StaticResource BoolToVis}}">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource Ws.CatalogSmall}" TextWrapping="Wrap" Foreground="{StaticResource Brush.Text}" FontSize="11.5" />
+                        <Button Style="{StaticResource Btn.Gold}" Command="{Binding UpdateCatalogCommand}" Margin="0,6,0,0" HorizontalAlignment="Stretch"
+                                IsEnabled="{Binding Runner.IsBusy, Converter={StaticResource InverseBool}}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE896;" Style="{StaticResource Text.Icon}" FontSize="13" />
+                                <TextBlock Text="{DynamicResource Ws.UpdateCatalog}" Margin="8,0,0,0" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Border>
+
+                <!-- Catalog header -->
+                <Border DockPanel.Dock="Top" Background="{StaticResource Brush.Surface2}" CornerRadius="3" Padding="8,6" Margin="0,4,0,4"
+                        Visibility="{Binding HasCatalog, Converter={StaticResource BoolToVis}}">
+                    <DockPanel>
+                        <Border DockPanel.Dock="Left" Width="14" Height="14" CornerRadius="3" Background="{Binding Accent}" Margin="0,0,8,0" />
+                        <Button DockPanel.Dock="Right" Style="{StaticResource Btn.Icon}" Content="&#xE72C;" Padding="5,1" Margin="6,0,0,0"
+                                Command="{Binding UpdateCatalogCommand}" ToolTip="{DynamicResource Ws.UpdateCatalog}"
+                                IsEnabled="{Binding Runner.IsBusy, Converter={StaticResource InverseBool}}" />
+                        <TextBlock DockPanel.Dock="Right" Foreground="{StaticResource Brush.TextMuted}" FontSize="11" VerticalAlignment="Center">
+                            <Run Text="{Binding VisibleModels, Mode=OneWay}" /><Run Text=" / " /><Run Text="{Binding ModelCount, Mode=OneWay}" />
+                        </TextBlock>
+                        <TextBlock Text="{Binding CatalogHeader}" FontWeight="Bold" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                    </DockPanel>
+                </Border>
+
+                <!-- Model list (grouped by series, or by brand on chipset pages) -->
+                <ListBox ItemsSource="{Binding ModelsView}" SelectedItem="{Binding SelectedModel, Mode=TwoWay}"
+                         Background="Transparent" BorderThickness="0" ItemContainerStyle="{StaticResource ModelListItem}"
+                         Foreground="{StaticResource Brush.Text}"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                         Visibility="{Binding HasCatalog, Converter={StaticResource BoolToVis}}">
+                    <ListBox.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Margin="2,8,0,3">
+                                        <TextBlock Text="&#xE8B7;" Style="{StaticResource Text.Icon}" FontSize="13" Foreground="{StaticResource Brush.Orange}" />
+                                        <TextBlock Text="{Binding Name}" FontWeight="Bold" Margin="8,0,0,0" FlowDirection="LeftToRight" Foreground="{StaticResource Brush.Text}" />
+                                        <TextBlock Margin="6,0,0,0" Foreground="{StaticResource Brush.TextMuted}">
+                                            <Run Text="(" /><Run Text="{Binding ItemCount, Mode=OneWay}" /><Run Text=")" />
+                                        </TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                        </GroupStyle>
+                    </ListBox.GroupStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Image Source="{Binding Thumbnail}" Height="36" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality"
+                                       Visibility="{Binding HasThumbnail, Converter={StaticResource BoolToVis}}" />
+                                <ContentControl Template="{StaticResource PhoneGlyph}" Height="34"
+                                                Visibility="{Binding HasThumbnail, Converter={StaticResource BoolToVis}, ConverterParameter=invert}" />
+                                <StackPanel Grid.Column="1" Margin="8,0,0,0" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" FlowDirection="LeftToRight" HorizontalAlignment="Left" />
+                                    <TextBlock Text="{Binding Subtitle}" FontSize="11" Opacity="0.75" TextTrimming="CharacterEllipsis" FlowDirection="LeftToRight" HorizontalAlignment="Left" />
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+        </Border>
+
+        <!-- ===================== CENTRE ===================== -->
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Device information card -->
+            <ContentControl Content="{Binding Info}" Focusable="False" Margin="0,0,0,8" />
+
+            <!-- Mode tabs (one per operation group) -->
+            <ItemsControl Grid.Row="1" ItemsSource="{Binding Groups}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <RadioButton Style="{StaticResource ModeTab}" GroupName="ModeTabs" Content="{Binding Title}"
+                                     IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                     Command="{Binding DataContext.SelectGroupCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                     CommandParameter="{Binding}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- Operations | service status -->
+            <Border Grid.Row="2" Style="{StaticResource GoldPanel}" CornerRadius="0,4,4,4" Padding="10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Operation buttons -->
+                    <DockPanel>
+                        <TextBlock DockPanel.Dock="Bottom" Text="{DynamicResource Ws.TargetHint}" Foreground="{StaticResource Brush.TextMuted}"
+                                   FontSize="11" TextWrapping="Wrap" Margin="2,6,0,0" />
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{Binding Actions}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Style="{StaticResource OpRow}"
+                                                Command="{Binding DataContext.RunCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}"
+                                                IsEnabled="{Binding DataContext.Runner.IsBusy, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource InverseBool}}">
+                                            <DockPanel>
+                                                <TextBlock DockPanel.Dock="Left" Text="{Binding Glyph}" FontSize="16" Width="26">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock" BasedOn="{StaticResource Text.Icon}">
+                                                            <Setter Property="Foreground" Value="{StaticResource Brush.Orange}" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsDangerous}" Value="True">
+                                                                    <Setter Property="Foreground" Value="{StaticResource Brush.Error}" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                                <TextBlock Text="{Binding Title}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding Title}" />
+                                            </DockPanel>
+                                        </Button>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </DockPanel>
+
+                    <!-- Service status + terminal -->
+                    <Border Grid.Column="2" Background="{StaticResource Brush.Background}" BorderBrush="{StaticResource Brush.Border}"
+                            BorderThickness="1" CornerRadius="3" Padding="8">
+                        <DockPanel>
+                            <!-- Terminal (ADB / Fastboot pages) -->
+                            <Border DockPanel.Dock="Bottom" Margin="0,8,0,0" Padding="0,8,0,0" BorderBrush="{StaticResource Brush.Border}" BorderThickness="0,1,0,0"
+                                    Visibility="{Binding HasTerminal, Converter={StaticResource BoolToVis}}">
+                                <StackPanel>
+                                    <TextBlock Text="{DynamicResource Ws.TerminalHint}" Foreground="{StaticResource Brush.TextMuted}" FontSize="11" TextWrapping="Wrap" Margin="0,0,0,6" />
+                                    <DockPanel FlowDirection="LeftToRight">
+                                        <TextBlock DockPanel.Dock="Left" Text="{Binding TerminalPrefix}" FontFamily="{StaticResource Font.Mono}"
+                                                   Foreground="{StaticResource Brush.Orange}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                                        <Button DockPanel.Dock="Right" Style="{StaticResource Btn.Gold}" Command="{Binding RunTerminalCommand}" Margin="8,0,0,0">
+                                            <TextBlock Text="{DynamicResource Ws.Run}" />
+                                        </Button>
+                                        <TextBox Text="{Binding TerminalText, UpdateSourceTrigger=PropertyChanged}" FontFamily="{StaticResource Font.Mono}">
+                                            <TextBox.InputBindings>
+                                                <KeyBinding Key="Enter" Command="{Binding RunTerminalCommand}" />
+                                            </TextBox.InputBindings>
+                                        </TextBox>
+                                    </DockPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <TextBlock DockPanel.Dock="Top" Text="{DynamicResource Ws.ServiceStatus}" Style="{StaticResource PanelHeader}" />
+                            <TextBlock DockPanel.Dock="Top" Text="{DynamicResource Ws.PlannedHint}" Foreground="{StaticResource Brush.TextMuted}"
+                                       FontSize="11" TextWrapping="Wrap" Margin="0,2,0,6"
+                                       Visibility="{Binding HasPlanned, Converter={StaticResource BoolToVis}}" />
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <ItemsControl ItemsSource="{Binding Planned}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderBrush="{StaticResource Brush.Border}" BorderThickness="0,0,0,1" Padding="0,5">
+                                                <DockPanel>
+                                                    <ContentPresenter DockPanel.Dock="Right" Content="{Binding Status}" ContentTemplate="{StaticResource StatusBadge}" Margin="8,0,0,0" />
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Name}" TextWrapping="Wrap" FontSize="12" />
+                                                        <TextBlock FontSize="10.5" Foreground="{StaticResource Brush.TextMuted}" TextWrapping="Wrap">
+                                                            <Run Text="{Binding Phase, Mode=OneWay}" /><Run Text="  " /><Run Text="{Binding Notes, Mode=OneWay}" />
+                                                        </TextBlock>
+                                                    </StackPanel>
+                                                </DockPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </DockPanel>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>$(EngineTargetFramework)</TargetFramework>
+    <RootNamespace>MUTASSIM.ToolPro.Assistance</RootNamespace>
+    <Description>FRP / MDM owner-assistance modules (no bypass by design).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MUTASSIM.ToolPro.Core\MUTASSIM.ToolPro.Core.csproj" />
+  </ItemGroup>
+</Project>

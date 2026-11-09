@@ -1,0 +1,136 @@
+<UserControl x:Class="MUTASSIM.ToolPro.App.Views.AssistView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer Style="{StaticResource PageRoot}">
+        <StackPanel MaxWidth="980" HorizontalAlignment="Left">
+            <TextBlock Text="{DynamicResource Nav.Assist}" Style="{StaticResource Text.H1}" />
+            <TextBlock Text="{DynamicResource Assist.Subtitle}" Style="{StaticResource Text.Muted}" TextWrapping="Wrap" Margin="0,4,0,16" />
+
+            <!-- Server -->
+            <Border Style="{StaticResource Card}" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource Assist.Server}" Style="{StaticResource Text.H2}" Margin="0,0,0,10" />
+                    <DockPanel>
+                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                            <Button Command="{Binding SaveServerCommand}" Margin="8,0,0,0">
+                                <TextBlock Text="{DynamicResource Assist.SaveAndConnect}" />
+                            </Button>
+                            <Button Command="{Binding CheckServerCommand}" Margin="8,0,0,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE72C;" Style="{StaticResource Text.Icon}" FontSize="13" />
+                                    <TextBlock Text="{DynamicResource Assist.Check}" Margin="6,0,0,0" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                        <TextBox Text="{Binding ServerUrl, UpdateSourceTrigger=PropertyChanged}" FlowDirection="LeftToRight" />
+                    </DockPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Ellipse Width="9" Height="9" VerticalAlignment="Center">
+                            <Ellipse.Style>
+                                <Style TargetType="Ellipse">
+                                    <Setter Property="Fill" Value="{StaticResource Brush.Error}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsOnline}" Value="True">
+                                            <Setter Property="Fill" Value="{StaticResource Brush.Success}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Ellipse.Style>
+                        </Ellipse>
+                        <TextBlock Text="{Binding ServerStatus}" Margin="8,0,0,0" />
+                    </StackPanel>
+                    <TextBlock Text="{Binding SecurityWarning}" Foreground="{StaticResource Brush.Warning}" TextWrapping="Wrap" Margin="0,6,0,0"
+                               Visibility="{Binding SecurityWarning, Converter={StaticResource EmptyToCollapsed}}" />
+                    <TextBlock Text="{Binding ErrorText}" Foreground="{StaticResource Brush.Error}" TextWrapping="Wrap" Margin="0,6,0,0"
+                               Visibility="{Binding ErrorText, Converter={StaticResource EmptyToCollapsed}}" />
+                </StackPanel>
+            </Border>
+
+            <!-- Problem -->
+            <Border Style="{StaticResource Card}" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource Assist.Problem}" Style="{StaticResource Text.H2}" Margin="0,0,0,10" />
+                    <TextBlock Style="{StaticResource Text.Label}">
+                        <Run Text="{DynamicResource Assist.Device}" /><Run Text=": " /><Run Text="{Binding DeviceText, Mode=OneWay}" />
+                    </TextBlock>
+                    <DockPanel Margin="0,8,0,0">
+                        <Button DockPanel.Dock="Right" Style="{StaticResource Btn.Gold}" Command="{Binding AskServerCommand}" Margin="8,0,0,0" Padding="16,6">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE753;" Style="{StaticResource Text.Icon}" FontSize="13" />
+                                <TextBlock Text="{DynamicResource Assist.Ask}" Margin="8,0,0,0" />
+                            </StackPanel>
+                        </Button>
+                        <ComboBox ItemsSource="{Binding Problems}" SelectedItem="{Binding SelectedProblem}" DisplayMemberPath="Title" />
+                    </DockPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Answer -->
+            <Border Style="{StaticResource Card}" Margin="0,0,0,16"
+                    Visibility="{Binding HasAnswer, Converter={StaticResource BoolToVis}}">
+                <StackPanel>
+                    <DockPanel Margin="0,0,0,8">
+                        <Button DockPanel.Dock="Right" Style="{StaticResource Btn.Primary}" Command="{Binding RunAllCommand}" Padding="14,6">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE768;" Style="{StaticResource Text.Icon}" FontSize="13" />
+                                <TextBlock Text="{DynamicResource Assist.RunAll}" Margin="8,0,0,0" />
+                            </StackPanel>
+                        </Button>
+                        <TextBlock Text="{DynamicResource Assist.Solution}" Style="{StaticResource Text.H2}" VerticalAlignment="Center" />
+                    </DockPanel>
+                    <TextBlock Text="{Binding Summary}" TextWrapping="Wrap" Margin="0,0,0,12" />
+
+                    <ItemsControl ItemsSource="{Binding Steps}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="{StaticResource Brush.Border}" BorderThickness="0,0,0,1" Padding="0,8">
+                                    <DockPanel>
+                                        <Button DockPanel.Dock="Right" VerticalAlignment="Center" Margin="10,0,0,0" Padding="14,5"
+                                                IsEnabled="{Binding CanRun}"
+                                                Command="{Binding DataContext.RunStepCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                CommandParameter="{Binding}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="&#xE768;" Style="{StaticResource Text.Icon}" FontSize="12" />
+                                                <TextBlock Text="{DynamicResource Assist.Run}" Margin="6,0,0,0" />
+                                            </StackPanel>
+                                        </Button>
+                                        <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center" Margin="10,0,0,0" MinWidth="90"
+                                                   Text="{Binding StateText}" Foreground="{Binding StateBrush}" />
+                                        <TextBlock DockPanel.Dock="Left" Text="{Binding Order}" Width="26" FontWeight="Bold"
+                                                   Foreground="{StaticResource Brush.Gold}" VerticalAlignment="Top" />
+                                        <StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Title}" FontWeight="SemiBold" />
+                                                <Border Style="{StaticResource Badge}" Margin="8,0,0,0" BorderBrush="{StaticResource Brush.Orange}" BorderThickness="1"
+                                                        Visibility="{Binding IsDangerous, Converter={StaticResource BoolToVis}}">
+                                                    <TextBlock Text="{DynamicResource Assist.Dangerous}" FontSize="10" Foreground="{StaticResource Brush.Orange}" />
+                                                </Border>
+                                            </StackPanel>
+                                            <TextBlock Text="{Binding Reason}" Style="{StaticResource Text.Muted}" TextWrapping="Wrap" Margin="0,2,0,0" />
+                                            <TextBlock Text="{Binding ResultText}" TextWrapping="Wrap" Margin="0,2,0,0" FontSize="11"
+                                                       Foreground="{Binding StateBrush}"
+                                                       Visibility="{Binding ResultText, Converter={StaticResource EmptyToCollapsed}}" />
+                                        </StackPanel>
+                                    </DockPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <TextBlock Text="{DynamicResource Assist.Guidance}" Style="{StaticResource Text.Label}" Margin="0,14,0,4" />
+                    <ItemsControl ItemsSource="{Binding Guidance}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel Margin="0,2">
+                                    <TextBlock DockPanel.Dock="Left" Text="•" Foreground="{StaticResource Brush.Gold}" Margin="0,0,8,0" />
+                                    <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                </DockPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <TextBlock Text="{DynamicResource Assist.SafetyNote}" Style="{StaticResource Text.Muted}" TextWrapping="Wrap" Margin="0,12,0,0" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

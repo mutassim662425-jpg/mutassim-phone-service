@@ -1,0 +1,167 @@
+<UserControl x:Class="MUTASSIM.ToolPro.App.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <UserControl.Resources>
+        <Style x:Key="StatusLabel" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource Brush.TextMuted}" />
+            <Setter Property="Margin" Value="0,4,10,4" />
+        </Style>
+        <Style x:Key="StatusValue" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="0,4,0,4" />
+        </Style>
+    </UserControl.Resources>
+
+    <DockPanel Margin="8,8,4,6">
+        <!-- Platform-Tools setup bar (only when adb.exe is not found) -->
+        <Border DockPanel.Dock="Top" Background="#2A1F0A" BorderBrush="{StaticResource Brush.Orange}" BorderThickness="1"
+                CornerRadius="4" Padding="12,8" Margin="0,0,0,8"
+                Visibility="{Binding NeedsPlatformTools, Converter={StaticResource BoolToVis}}">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Style="{StaticResource Btn.Gold}" Command="{Binding SelectPlatformToolsCommand}" Margin="0,0,6,0">
+                        <TextBlock Text="{DynamicResource Home.SelectFolder}" />
+                    </Button>
+                    <Button Command="{Binding DownloadPlatformToolsCommand}">
+                        <TextBlock Text="{DynamicResource Home.DownloadTools}" />
+                    </Button>
+                </StackPanel>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="{DynamicResource Home.ToolsMissingTitle}" FontWeight="Bold" Foreground="{StaticResource Brush.Orange}" />
+                    <TextBlock Text="{DynamicResource Home.ToolsMissingHint}" Foreground="{StaticResource Brush.TextMuted}" TextWrapping="Wrap" />
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- ============ LEFT: connected devices + system status ============ -->
+            <DockPanel>
+                <Border DockPanel.Dock="Bottom" Style="{StaticResource GoldPanel}" Padding="10" Margin="0,8,0,0">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource Home.System}" Style="{StaticResource PanelHeader}" Margin="0,0,0,4" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition /><RowDefinition /><RowDefinition /><RowDefinition /><RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="{DynamicResource Dashboard.License}" Style="{StaticResource StatusLabel}" />
+                            <TextBlock Grid.Column="1" Style="{StaticResource StatusValue}" Text="{Binding LicenseState, Converter={StaticResource EnumText}}"
+                                       Foreground="{Binding LicenseState, Converter={StaticResource StatusBrush}}" />
+                            <TextBlock Grid.Row="1" Text="{DynamicResource Dashboard.Internet}" Style="{StaticResource StatusLabel}" />
+                            <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource StatusValue}" Text="{Binding InternetHealth, Converter={StaticResource EnumText}}"
+                                       Foreground="{Binding InternetHealth, Converter={StaticResource StatusBrush}}" />
+                            <TextBlock Grid.Row="2" Text="{DynamicResource Dashboard.Server}" Style="{StaticResource StatusLabel}" />
+                            <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource StatusValue}" Text="{Binding ServerHealth, Converter={StaticResource EnumText}}"
+                                       Foreground="{Binding ServerHealth, Converter={StaticResource StatusBrush}}" />
+                            <TextBlock Grid.Row="3" Text="{DynamicResource Dashboard.Services}" Style="{StaticResource StatusLabel}" />
+                            <TextBlock Grid.Row="3" Grid.Column="1" Style="{StaticResource StatusValue}">
+                                <Run Text="{Binding AvailableServiceCount, Mode=OneWay}" /><Run Text=" / " /><Run Text="{Binding TotalServiceCount, Mode=OneWay}" Foreground="{StaticResource Brush.TextMuted}" />
+                            </TextBlock>
+                            <TextBlock Grid.Row="4" Text="{DynamicResource Home.CatalogModels}" Style="{StaticResource StatusLabel}" />
+                            <TextBlock Grid.Row="4" Grid.Column="1" Style="{StaticResource StatusValue}" Text="{Binding CatalogCount}" />
+                        </Grid>
+                        <TextBlock Text="{Binding InternetError}" Foreground="{StaticResource Brush.Error}" TextWrapping="Wrap" FontSize="11" FlowDirection="LeftToRight"
+                                   Visibility="{Binding InternetError, Converter={StaticResource EmptyToCollapsed}}" />
+                        <TextBlock FontSize="11" Foreground="{StaticResource Brush.TextMuted}" TextWrapping="Wrap" FlowDirection="LeftToRight" Margin="0,4,0,0"
+                                   Visibility="{Binding AdbPath, Converter={StaticResource EmptyToCollapsed}}">
+                            <Run Text="adb: " /><Run Text="{Binding AdbPath, Mode=OneWay}" />
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource GoldPanel}" Padding="8">
+                    <DockPanel>
+                        <TextBlock DockPanel.Dock="Top" Style="{StaticResource PanelHeader}" Margin="2,0,0,6">
+                            <Run Text="{DynamicResource Ws.Connected}" /><Run Text="  (" /><Run Text="{Binding ConnectedDevices, Mode=OneWay}" /><Run Text=")" />
+                        </TextBlock>
+                        <StackPanel DockPanel.Dock="Top" Visibility="{Binding ConnectedDevices, Converter={StaticResource EmptyToCollapsed}, ConverterParameter=invert}">
+                            <ContentControl Template="{StaticResource PhoneGlyph}" Height="90" Margin="0,16,0,10" Opacity="0.5" />
+                            <TextBlock Text="{DynamicResource Ws.NoConnected}" HorizontalAlignment="Center" FontWeight="SemiBold" />
+                            <TextBlock Text="{DynamicResource Devices.EmptyHint}" Foreground="{StaticResource Brush.TextMuted}" TextWrapping="Wrap"
+                                       TextAlignment="Center" Margin="6,4,6,0" />
+                        </StackPanel>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{Binding DeviceContext.Devices}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="{StaticResource Brush.Surface2}" BorderBrush="{StaticResource Brush.Border}" BorderThickness="1"
+                                                CornerRadius="3" Padding="8,6" Margin="0,0,0,5" Cursor="Hand">
+                                            <Border.InputBindings>
+                                                <MouseBinding Gesture="LeftClick"
+                                                              Command="{Binding DataContext.ShowDeviceCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                              CommandParameter="{Binding}" />
+                                            </Border.InputBindings>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="26" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <ContentControl Template="{StaticResource PhoneGlyph}" Height="34" />
+                                                <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                                                    <TextBlock FlowDirection="LeftToRight" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis">
+                                                        <Run Text="{Binding DisplayManufacturer, Mode=OneWay}" Foreground="{StaticResource Brush.TextMuted}" />
+                                                        <Run Text="{Binding DisplayName, Mode=OneWay}" FontWeight="SemiBold" />
+                                                    </TextBlock>
+                                                    <TextBlock FontSize="11" FlowDirection="LeftToRight" HorizontalAlignment="Left">
+                                                        <Run Text="{Binding Mode, Converter={StaticResource EnumText}, Mode=OneWay}" Foreground="{Binding Mode, Converter={StaticResource StatusBrush}, Mode=OneWay}" />
+                                                        <Run Text="  " /><Run Text="{Binding SerialNumber, Mode=OneWay}" Foreground="{StaticResource Brush.TextMuted}" />
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </DockPanel>
+                </Border>
+            </DockPanel>
+
+            <!-- ============ CENTRE: device card + actions + tools ============ -->
+            <StackPanel Grid.Column="2">
+                <ContentControl Content="{Binding Info}" Focusable="False" />
+
+                <Button Style="{StaticResource Btn.Gold}" Command="{Binding OpenDeviceBrandCommand}" HorizontalAlignment="Left" Margin="0,8,0,0" Padding="16,7"
+                        Visibility="{Binding Info.IsLive, Converter={StaticResource BoolToVis}}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE8A7;" Style="{StaticResource Text.Icon}" FontSize="13" />
+                        <TextBlock Text="{DynamicResource Home.OpenBrand}" Margin="8,0,0,0" />
+                    </StackPanel>
+                </Button>
+
+                <Border Style="{StaticResource GoldPanel}" Padding="10" Margin="0,8,0,0">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource Home.Tools}" Style="{StaticResource PanelHeader}" Margin="0,0,0,8" />
+                        <ItemsControl ItemsSource="{Binding Shortcuts}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate><UniformGrid Columns="3" /></ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Style="{StaticResource OpRow}" Margin="0,0,6,6"
+                                            Command="{Binding DataContext.OpenCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding Route}">
+                                        <DockPanel>
+                                            <TextBlock DockPanel.Dock="Left" Text="{Binding Glyph}" Style="{StaticResource Text.Icon}" FontSize="15" Width="26"
+                                                       Foreground="{StaticResource Brush.Orange}" />
+                                            <TextBlock Text="{Binding Title}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                        </DockPanel>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</UserControl>

@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>$(EngineTargetFramework)</TargetFramework>
+    <RootNamespace>MUTASSIM.ToolPro.MultiBrand</RootNamespace>
+    <Description>Unified multi-brand engine with per-company profiles (OPPO, Realme, Vivo, Tecno, Infinix, Motorola, Nokia, Pixel, OnePlus, ZTE, Lenovo, Sony, LG).</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MUTASSIM.ToolPro.Core\MUTASSIM.ToolPro.Core.csproj" />
+  </ItemGroup>
+</Project>

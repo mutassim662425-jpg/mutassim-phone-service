@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>$(EngineTargetFramework)</TargetFramework>
+    <RootNamespace>MUTASSIM.ToolPro.Api</RootNamespace>
+    <Description>GSM service-provider integration engine.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MUTASSIM.ToolPro.Core\MUTASSIM.ToolPro.Core.csproj" />
+  </ItemGroup>
+</Project>

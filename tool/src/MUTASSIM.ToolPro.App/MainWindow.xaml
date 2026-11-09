@@ -1,0 +1,321 @@
+<Window x:Class="MUTASSIM.ToolPro.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:conv="clr-namespace:MUTASSIM.ToolPro.App.Converters"
+        Title="MUTASSIM TOOL PRO"
+        Width="1500" Height="900" MinWidth="1280" MinHeight="720"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None" ResizeMode="CanResize"
+        Background="{StaticResource Brush.Background}"
+        Foreground="{StaticResource Brush.Text}"
+        FontFamily="{StaticResource Font.Ui}" FontSize="12"
+        Icon="pack://application:,,,/MutassimToolPro;component/Assets/app.ico"
+        FlowDirection="{Binding Localization.FlowDirection}"
+        UseLayoutRounding="True" SnapsToDevicePixels="True" TextOptions.TextFormattingMode="Display">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="44" ResizeBorderThickness="5" GlassFrameThickness="0"
+                      CornerRadius="0" UseAeroCaptionButtons="False" />
+    </WindowChrome.WindowChrome>
+
+    <Window.Resources>
+        <conv:EnumTextConverter x:Key="EnumText" />
+        <conv:StatusBrushConverter x:Key="StatusBrush" />
+        <conv:BoolToVisibilityConverter x:Key="BoolToVis" />
+        <conv:LogKindBrushConverter x:Key="LogBrush" />
+        <conv:InverseBoolConverter x:Key="InverseBool" />
+        <conv:EmptyToCollapsedConverter x:Key="EmptyToCollapsed" />
+
+        <Style x:Key="TitleInfo" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource Brush.TextMuted}" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="12.5" />
+        </Style>
+        <Style x:Key="MainTab" TargetType="RadioButton" BasedOn="{StaticResource TabItemNav}">
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+        </Style>
+    </Window.Resources>
+
+    <Border x:Name="RootBorder" BorderBrush="{StaticResource Brush.PanelBorder}" BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="44" />   <!-- title bar -->
+                <RowDefinition Height="Auto" /> <!-- brand bar -->
+                <RowDefinition Height="*" />    <!-- workspace + log -->
+                <RowDefinition Height="46" />   <!-- connection / progress -->
+                <RowDefinition Height="26" />   <!-- footer -->
+            </Grid.RowDefinitions>
+
+            <!-- ======================= TITLE BAR ======================= -->
+            <Border Grid.Row="0" Background="{StaticResource Brush.TitleBar}">
+                <DockPanel LastChildFill="False">
+                    <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Margin="12,0,0,0" VerticalAlignment="Center" FlowDirection="LeftToRight">
+                        <Image Source="pack://application:,,,/MutassimToolPro;component/Assets/logo.png" Width="30" Height="30"
+                               RenderOptions.BitmapScalingMode="HighQuality" />
+                        <TextBlock Margin="12,0,0,0" FontSize="20" FontWeight="Black" VerticalAlignment="Center">
+                            <Run Text="MUTASSIM TOOL PRO " Foreground="{StaticResource Brush.Text}" /><Run Text="{Binding DisplayVersion, Mode=OneWay}" Foreground="{StaticResource Brush.Orange}" />
+                        </TextBlock>
+                    </StackPanel>
+
+                    <!-- Tools + Settings -->
+                    <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" VerticalAlignment="Center" Margin="22,0,0,0">
+                        <Rectangle Width="1" Height="22" Fill="{StaticResource Brush.Border}" Margin="0,0,10,0" />
+                        <ItemsControl ItemsSource="{Binding ToolItems}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate><StackPanel Orientation="Horizontal" /></ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <RadioButton Style="{StaticResource MainTab}" GroupName="Nav" ToolTip="{Binding Title}"
+                                                 IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                                 Command="{Binding DataContext.NavigateCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                 CommandParameter="{Binding}">
+                                        <TextBlock Text="{Binding Glyph}" Style="{StaticResource Text.Icon}" FontSize="15" />
+                                    </RadioButton>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Button Style="{StaticResource Btn.Gold}" Command="{Binding NavigateRouteCommand}" CommandParameter="settings"
+                                Margin="10,0,0,0" Padding="12,4" WindowChrome.IsHitTestVisibleInChrome="True">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE713;" Style="{StaticResource Text.Icon}" FontSize="13" />
+                                <TextBlock Text="{DynamicResource Nav.Settings}" Margin="6,0,0,0" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                    <!-- Window buttons -->
+                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" FlowDirection="LeftToRight">
+                        <Button Style="{StaticResource Btn.Icon}" Content="&#xE921;" Width="46" Click="Minimize_Click"
+                                WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="{DynamicResource Window.Minimize}" />
+                        <Button x:Name="MaxButton" Style="{StaticResource Btn.Icon}" Content="&#xE922;" Width="46"
+                                Click="Maximize_Click" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="{DynamicResource Window.Maximize}" />
+                        <Button Style="{StaticResource Btn.WindowClose}" Content="&#xE8BB;" Width="46" Click="Close_Click"
+                                WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="{DynamicResource Window.Close}" />
+                    </StackPanel>
+
+                    <!-- Licence / user / expiry / internet / update -->
+                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,14,0">
+                        <Button Style="{StaticResource Btn.Gold}" Margin="0,0,16,0" Padding="12,5"
+                                WindowChrome.IsHitTestVisibleInChrome="True"
+                                Command="{Binding NavigateRouteCommand}" CommandParameter="account"
+                                ToolTip="{DynamicResource Account.OpenTip}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE77B;" Style="{StaticResource Text.Icon}" FontSize="13" />
+                                <TextBlock Text="{Binding Account.StatusText, Mode=OneWay}" Margin="6,0,0,0" FontWeight="SemiBold" />
+                            </StackPanel>
+                        </Button>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,22,0">
+                            <TextBlock Text="&#xE73E;" Style="{StaticResource Text.Icon}" FontSize="13" Foreground="{Binding LicenseState, Converter={StaticResource StatusBrush}}" />
+                            <TextBlock Style="{StaticResource TitleInfo}" Margin="6,0,0,0">
+                                <Run Text="{DynamicResource Top.License}" /><Run Text=": " /><Run Text="{Binding LicenseState, Converter={StaticResource EnumText}, Mode=OneWay}" Foreground="{Binding LicenseState, Converter={StaticResource StatusBrush}, Mode=OneWay}" FontWeight="SemiBold" />
+                            </TextBlock>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,22,0">
+                            <TextBlock Text="&#xE77B;" Style="{StaticResource Text.Icon}" FontSize="13" Foreground="{StaticResource Brush.TextMuted}" />
+                            <TextBlock Style="{StaticResource TitleInfo}" Margin="6,0,0,0">
+                                <Run Text="{DynamicResource Top.User}" /><Run Text=": " /><Run Text="{Binding UserName, Mode=OneWay}" Foreground="{StaticResource Brush.Text}" />
+                            </TextBlock>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,22,0" Visibility="{Binding ExpiresText, Converter={StaticResource EmptyToCollapsed}}">
+                            <TextBlock Text="&#xE787;" Style="{StaticResource Text.Icon}" FontSize="13" Foreground="{StaticResource Brush.TextMuted}" />
+                            <TextBlock Style="{StaticResource TitleInfo}" Margin="6,0,0,0">
+                                <Run Text="{DynamicResource Top.Expire}" /><Run Text=": " /><Run Text="{Binding ExpiresText, Mode=OneWay}" Foreground="{StaticResource Brush.Text}" />
+                            </TextBlock>
+                        </StackPanel>
+                        <Button Style="{StaticResource Btn.Icon}" Content="&#xE895;" Command="{Binding CheckUpdatesCommand}"
+                                WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="{DynamicResource Top.CheckUpdates}" />
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+
+            <!-- ======================= BRAND BAR ======================= -->
+            <ItemsControl Grid.Row="1" ItemsSource="{Binding BrandButtons}" Margin="8,8,2,2">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate><UniformGrid Columns="8" /></ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <RadioButton Style="{StaticResource BrandBarRadio}" GroupName="Brand" Background="{Binding Accent}"
+                                     IsChecked="{Binding IsSelected, Mode=TwoWay}" ToolTip="{Binding Title}"
+                                     Command="{Binding DataContext.NavigateRouteCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                     CommandParameter="{Binding Route}">
+                            <Grid>
+                                <Image Source="{Binding Logo}" MaxHeight="28" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality"
+                                       Visibility="{Binding HasLogo, Converter={StaticResource BoolToVis}}" />
+                                <!-- Long names ("HUAWEI / HONOR") shrink to fit instead of being cut -->
+                                <Viewbox StretchDirection="DownOnly" Stretch="Uniform" MaxHeight="24"
+                                         Visibility="{Binding HasLogo, Converter={StaticResource BoolToVis}, ConverterParameter=invert}">
+                                    <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
+                                        <TextBlock Text="{Binding Glyph}" Style="{StaticResource Text.Icon}" FontSize="17" Margin="0,0,8,0"
+                                                   Visibility="{Binding HasGlyph, Converter={StaticResource BoolToVis}}" />
+                                        <TextBlock Text="{Binding Title}" FontSize="17" FontWeight="Black" />
+                                    </StackPanel>
+                                </Viewbox>
+                            </Grid>
+                        </RadioButton>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- ======================= WORK AREA + LOG ======================= -->
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="760" />
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="390" MinWidth="280" />
+                </Grid.ColumnDefinitions>
+
+                <ContentControl Content="{Binding Navigation.CurrentViewModel}" Focusable="False" />
+
+                <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="Transparent" />
+
+                <!-- LOG -->
+                <Border Grid.Column="2" Style="{StaticResource GoldPanel}" Margin="0,8,8,6" Background="{StaticResource Brush.LogBackground}">
+                    <DockPanel>
+                        <Border DockPanel.Dock="Top" BorderBrush="{StaticResource Brush.PanelBorder}" BorderThickness="0,0,0,1" Padding="10,6">
+                            <DockPanel>
+                                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                                    <Button Style="{StaticResource Btn.Icon}" Content="&#xE74D;" Command="{Binding ClearLogCommand}" ToolTip="{DynamicResource Common.Clear}" Padding="7,3" />
+                                    <Button Style="{StaticResource Btn.Icon}" Content="&#xE8C8;" Command="{Binding CopyLogCommand}" ToolTip="{DynamicResource Terminal.Copy}" Padding="7,3" />
+                                    <Button Style="{StaticResource Btn.Icon}" Content="&#xE74E;" Command="{Binding SaveLogCommand}" ToolTip="{DynamicResource Terminal.Save}" Padding="7,3" />
+                                </StackPanel>
+                                <TextBlock Text="{DynamicResource Log.Title}" FontWeight="Black" FontSize="15" VerticalAlignment="Center" Foreground="{StaticResource Brush.Orange}" />
+                            </DockPanel>
+                        </Border>
+                        <ListBox x:Name="OpLogList" ItemsSource="{Binding Log.Lines}" Background="Transparent" BorderThickness="0"
+                                 FontFamily="{StaticResource Font.Mono}" FontSize="12.5" FlowDirection="LeftToRight" Padding="8,6"
+                                 VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <Border x:Name="Bd" Background="Transparent" Padding="0,1">
+                                                    <ContentPresenter />
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter TargetName="Bd" Property="Background" Value="{StaticResource Brush.Surface2}" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="22" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="&gt;&gt;" Foreground="#5D646E" ToolTip="{Binding TimeText}" />
+                                        <TextBlock Grid.Column="1" Text="{Binding Text}" TextWrapping="Wrap" ToolTip="{Binding TimeText}"
+                                                   Foreground="{Binding Kind, Converter={StaticResource LogBrush}}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DockPanel>
+                </Border>
+            </Grid>
+
+            <!-- ======================= CONNECTION / PROGRESS ======================= -->
+            <Border Grid.Row="3" Background="{StaticResource Brush.Surface}" BorderBrush="{StaticResource Brush.PanelBorder}" BorderThickness="0,1,0,0" Padding="8,0">
+                <DockPanel LastChildFill="True" VerticalAlignment="Center">
+                    <!-- Target device -->
+                    <Border DockPanel.Dock="Left" Style="{StaticResource ModePill}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE8EA;" Style="{StaticResource Text.Icon}" FontSize="13" Foreground="{StaticResource Brush.Orange}" />
+                            <TextBlock Text="{DynamicResource Bar.Connection}" Margin="6,0,8,0" VerticalAlignment="Center" />
+                            <ComboBox Width="300" VerticalAlignment="Center" MinHeight="24"
+                                      ItemsSource="{Binding DeviceContext.Devices}" SelectedItem="{Binding DeviceContext.Selected, Mode=TwoWay}"
+                                      IsEnabled="{Binding Runner.IsBusy, Converter={StaticResource InverseBool}}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock FlowDirection="LeftToRight">
+                                            <Run Text="{Binding DisplayManufacturer, Mode=OneWay}" Foreground="{StaticResource Brush.TextMuted}" />
+                                            <Run Text="{Binding DisplayName, Mode=OneWay}" FontWeight="SemiBold" />
+                                            <Run Text=" [" /><Run Text="{Binding Mode, Converter={StaticResource EnumText}, Mode=OneWay}" Foreground="{Binding Mode, Converter={StaticResource StatusBrush}, Mode=OneWay}" /><Run Text="]" />
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <Button Style="{StaticResource Btn.Icon}" Content="&#xE72C;" Command="{Binding RescanCommand}"
+                                    ToolTip="{DynamicResource Devices.Scan}" Margin="2,0,0,0" Padding="6,2" />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Per-mode indicators (real counts from the detection engines) -->
+                    <Border DockPanel.Dock="Left" Style="{StaticResource ModePill}">
+                        <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
+                            <StackPanel.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                    <Setter Property="Margin" Value="5,0,14,0" />
+                                </Style>
+                                <Style TargetType="Ellipse">
+                                    <Setter Property="Width" Value="8" />
+                                    <Setter Property="Height" Value="8" />
+                                    <Setter Property="Fill" Value="{StaticResource Brush.TextMuted}" />
+                                </Style>
+                            </StackPanel.Resources>
+                            <Ellipse Fill="{Binding AdbFound, Converter={StaticResource StatusBrush}}" />
+                            <TextBlock><Run Text="ADB : " /><Run Text="{Binding ConnAdb, Mode=OneWay}" FontWeight="Bold" /></TextBlock>
+                            <Ellipse Fill="{Binding FastbootFound, Converter={StaticResource StatusBrush}}" />
+                            <TextBlock><Run Text="Fastboot : " /><Run Text="{Binding ConnFastboot, Mode=OneWay}" FontWeight="Bold" /></TextBlock>
+                            <Ellipse Fill="{Binding UsbMonitorActive, Converter={StaticResource StatusBrush}}" />
+                            <TextBlock><Run Text="EDL : " /><Run Text="{Binding ConnEdl, Mode=OneWay}" FontWeight="Bold" /></TextBlock>
+                            <Ellipse Fill="{Binding UsbMonitorActive, Converter={StaticResource StatusBrush}}" />
+                            <TextBlock Margin="5,0,4,0"><Run Text="BROM : " /><Run Text="{Binding ConnBrom, Mode=OneWay}" FontWeight="Bold" /></TextBlock>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- STOP -->
+                    <Button DockPanel.Dock="Right" Command="{Binding Runner.StopCommand}" Padding="22,6" Margin="8,0,0,0" Height="32"
+                            Background="{StaticResource Brush.Error}" BorderBrush="{StaticResource Brush.Error}" Tag="#C8323C" Foreground="White" FontWeight="Bold">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE711;" Style="{StaticResource Text.Icon}" FontSize="12" />
+                            <TextBlock Text="{DynamicResource Bar.Stop}" Margin="8,0,0,0" />
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Progress with status text -->
+                    <Grid Margin="4,0,0,0" Height="22" VerticalAlignment="Center">
+                        <ProgressBar Height="22" IsIndeterminate="{Binding Runner.IsBusy}" Foreground="{StaticResource Brush.Gold}"
+                                     Background="{StaticResource Brush.Background}" BorderBrush="{StaticResource Brush.Border}" />
+                        <TextBlock Text="{Binding Runner.StatusText}" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
+                                   Foreground="{StaticResource Brush.OnGold}"
+                                   Visibility="{Binding Runner.StatusText, Converter={StaticResource EmptyToCollapsed}}" />
+                        <TextBlock Text="{DynamicResource Bar.Ready}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource Brush.TextMuted}"
+                                   Visibility="{Binding Runner.StatusText, Converter={StaticResource EmptyToCollapsed}, ConverterParameter=invert}" />
+                    </Grid>
+                </DockPanel>
+            </Border>
+
+            <!-- ======================= FOOTER ======================= -->
+            <Border Grid.Row="4" Background="{StaticResource Brush.TitleBar}">
+                <DockPanel Margin="12,0" LastChildFill="True">
+                    <DockPanel.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontSize" Value="11.5" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="Foreground" Value="{StaticResource Brush.TextMuted}" />
+                        </Style>
+                    </DockPanel.Resources>
+                    <TextBlock DockPanel.Dock="Left" FlowDirection="LeftToRight" Margin="0,0,24,0" FontWeight="Bold">
+                        <Run Text="POWERED BY " Foreground="{StaticResource Brush.Text}" /><Run Text="MUTASSIM" Foreground="{StaticResource Brush.Orange}" />
+                    </TextBlock>
+                    <TextBlock DockPanel.Dock="Right" Text="{Binding Copyright}" FlowDirection="LeftToRight" />
+                    <TextBlock TextTrimming="CharacterEllipsis">
+                        <Run Text="{DynamicResource Status.LastOperation}" /><Run Text=": " /><Run Text="{Binding LastOperationText, Mode=OneWay}" Foreground="{StaticResource Brush.Text}" />
+                    </TextBlock>
+                </DockPanel>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

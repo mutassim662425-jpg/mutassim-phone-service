@@ -1,0 +1,15 @@
+<Application x:Class="MUTASSIM.ToolPro.App.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             ShutdownMode="OnMainWindowClose">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Index 0 = active language. Replaced at runtime by LocalizationService. -->
+                <ResourceDictionary Source="Localization/Strings.en.xaml" />
+                <!-- ViewTemplates merges Controls, which merges Colors (self-contained chain). -->
+                <ResourceDictionary Source="Themes/ViewTemplates.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Shared command/device models so agent and server can never drift apart -->
+    <ProjectReference Include="..\MUTASSIM_SERVER.Core\MUTASSIM_SERVER.Core.csproj" />
+  </ItemGroup>
+
+</Project>

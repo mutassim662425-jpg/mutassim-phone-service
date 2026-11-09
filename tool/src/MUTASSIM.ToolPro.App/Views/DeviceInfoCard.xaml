@@ -1,0 +1,91 @@
+<UserControl x:Class="MUTASSIM.ToolPro.App.Views.DeviceInfoCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- DataContext: InfoPanelViewModel -->
+    <Border Style="{StaticResource GoldPanel}" Padding="10">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Device image: owner-supplied photo, otherwise our generic phone drawing -->
+            <Border Background="{StaticResource Brush.Background}" BorderBrush="{StaticResource Brush.Border}" BorderThickness="1"
+                    CornerRadius="4" Height="170" VerticalAlignment="Top">
+                <Grid Margin="10">
+                    <Image Source="{Binding Image}" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality"
+                           Visibility="{Binding Image, Converter={StaticResource EmptyToCollapsed}}" />
+                    <ContentControl Template="{StaticResource PhoneGlyph}" Width="80"
+                                    Visibility="{Binding Image, Converter={StaticResource EmptyToCollapsed}, ConverterParameter=invert}" />
+                </Grid>
+            </Border>
+
+            <StackPanel Grid.Column="1" Margin="14,0,0,0">
+                <!-- Title: brand colour marker + name + LIVE / CATALOG badge -->
+                <DockPanel Margin="0,0,0,2">
+                    <Border DockPanel.Dock="Left" Width="22" Height="22" CornerRadius="4" Background="{Binding Accent}" Margin="0,0,10,0">
+                        <TextBlock Text="&#xE8EA;" Style="{StaticResource Text.Icon}" FontSize="12" Foreground="White" HorizontalAlignment="Center" />
+                    </Border>
+                    <Border DockPanel.Dock="Right" CornerRadius="3" Padding="8,2" VerticalAlignment="Center"
+                            Visibility="{Binding Badge, Converter={StaticResource EmptyToCollapsed}}">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="{StaticResource Brush.Surface2}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsLive}" Value="True">
+                                        <Setter Property="Background" Value="#1F2ECC71" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <TextBlock Text="{Binding Badge}" FontSize="10" FontWeight="Bold">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="{StaticResource Brush.TextMuted}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsLive}" Value="True">
+                                            <Setter Property="Foreground" Value="{StaticResource Brush.Success}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Border>
+                    <TextBlock Text="{Binding Title}" FontSize="18" FontWeight="Bold" TextTrimming="CharacterEllipsis"
+                               VerticalAlignment="Center" FlowDirection="LeftToRight" HorizontalAlignment="Left" />
+                </DockPanel>
+                <TextBlock Text="{Binding Subtitle}" Foreground="{StaticResource Brush.TextMuted}" Margin="32,0,0,8" FlowDirection="LeftToRight"
+                           HorizontalAlignment="Left" Visibility="{Binding Subtitle, Converter={StaticResource EmptyToCollapsed}}" />
+
+                <!-- Spec rows: label : value [copy] -->
+                <ItemsControl ItemsSource="{Binding Rows}" Margin="0,2,0,0">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate><UniformGrid Columns="2" /></ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,1,14,1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="112" />
+                                    <ColumnDefinition Width="12" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Label}" Foreground="{StaticResource Brush.TextMuted}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                <TextBlock Grid.Column="1" Text=":" Foreground="{StaticResource Brush.TextMuted}" VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="2" Text="{Binding Value}" FontWeight="SemiBold" VerticalAlignment="Center"
+                                           TextTrimming="CharacterEllipsis" ToolTip="{Binding Value}" FlowDirection="LeftToRight" HorizontalAlignment="Left" />
+                                <Button Grid.Column="3" Style="{StaticResource Btn.Copy}" ToolTip="{DynamicResource Common.Copy}"
+                                        Command="{Binding DataContext.CopyCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                        CommandParameter="{Binding Value}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <TextBlock Text="{Binding Note}" Foreground="{StaticResource Brush.Warning}" TextWrapping="Wrap" FontSize="11.5" Margin="0,8,0,0"
+                           Visibility="{Binding Note, Converter={StaticResource EmptyToCollapsed}}" />
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

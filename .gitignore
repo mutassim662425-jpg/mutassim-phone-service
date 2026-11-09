@@ -1,0 +1,50 @@
+# ---- .NET build output ----
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+*.user
+*.suo
+.vs/
+*.vspscc
+
+# ---- NuGet ----
+*.nupkg
+*.snupkg
+project.lock.json
+project.assets.json
+.nuget/
+
+# ---- Databases / local data (NEVER commit: contains credentials, balances) ----
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+server-data/
+
+# ---- Secrets / local config ----
+appsettings.*.local.json
+*.secret.json
+.env
+.env.*
+
+# ---- Backups / archives ----
+_backup*/
+_BACKUP*/
+*.zip
+*.7z
+*.rar
+
+# ---- Firmware / large binaries (keep source only, not ROMs) ----
+*.tar.md5
+*.pit
+*.img
+*.bin
+*.lz4
+
+# ---- OS / editor ----
+.DS_Store
+Thumbs.db
+*.swp

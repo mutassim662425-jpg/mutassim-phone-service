@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="MUTASSIM_DEVICE_AGENT/MUTASSIM_DEVICE_AGENT.csproj" />
+  <Project Path="MUTASSIM_SERVER.Core/MUTASSIM_SERVER.Core.csproj" />
+  <Project Path="MUTASSIM_SERVER/MUTASSIM_SERVER.csproj" />
+  <Project Path="MUTASSIM_SERVER.Tests/MUTASSIM_SERVER.Tests.csproj" />
+</Solution>

@@ -1,0 +1,138 @@
+<UserControl x:Class="MUTASSIM.ToolPro.App.Views.SamsungFlashView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer Style="{StaticResource PageRoot}">
+        <StackPanel MaxWidth="1000" HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{DynamicResource SamFlash.Title}" Style="{StaticResource Text.H1}" />
+                <Border Style="{StaticResource Badge}" Margin="12,0,0,0" VerticalAlignment="Center"
+                        BorderBrush="{StaticResource Brush.Orange}" BorderThickness="1">
+                    <TextBlock Text="{DynamicResource SamFlash.Experimental}" FontSize="11" Foreground="{StaticResource Brush.Orange}" />
+                </Border>
+            </StackPanel>
+            <TextBlock Text="{DynamicResource SamFlash.Subtitle}" Style="{StaticResource Text.Muted}" TextWrapping="Wrap" Margin="0,4,0,14" />
+
+            <!-- Top: ZIP / PIT / clear -->
+            <WrapPanel Margin="0,0,0,12">
+                <Button Style="{StaticResource Btn.Gold}" Command="{Binding LoadZipCommand}" Padding="16,7" Margin="0,0,8,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE7B8;" Style="{StaticResource Text.Icon}" FontSize="14" />
+                        <TextBlock Text="{DynamicResource SamFlash.LoadZip}" Margin="8,0,0,0" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding BrowsePitCommand}" Padding="16,7" Margin="0,0,8,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE8F1;" Style="{StaticResource Text.Icon}" FontSize="14" />
+                        <TextBlock Text="{DynamicResource SamFlash.LoadPit}" Margin="8,0,0,0" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding ClearAllCommand}" Padding="16,7">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE74D;" Style="{StaticResource Text.Icon}" FontSize="14" />
+                        <TextBlock Text="{DynamicResource SamFlash.ClearAll}" Margin="8,0,0,0" />
+                    </StackPanel>
+                </Button>
+            </WrapPanel>
+
+            <!-- Slots in order: AP, BL, CP, CSC, USERDATA -->
+            <Border Style="{StaticResource Card}" Margin="0,0,0,12">
+                <StackPanel>
+                    <ItemsControl ItemsSource="{Binding Slots}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="{StaticResource Brush.Border}" BorderThickness="0,0,0,1" Padding="0,7">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="110" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+                                        <TextBlock Grid.Column="1" Text="{Binding Key}" FontWeight="Bold" FontSize="14"
+                                                   Foreground="{StaticResource Brush.Gold}" VerticalAlignment="Center" />
+                                        <StackPanel Grid.Column="2" VerticalAlignment="Center" FlowDirection="LeftToRight">
+                                            <TextBlock Text="{Binding FileName}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Path}" />
+                                            <TextBlock Text="{Binding Detail}" Style="{StaticResource Text.Muted}" FontSize="11"
+                                                       Visibility="{Binding HasFile, Converter={StaticResource BoolToVis}}" />
+                                        </StackPanel>
+                                        <Button Grid.Column="3" Margin="8,0,0,0" Padding="14,5"
+                                                Command="{Binding DataContext.BrowseSlotCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                CommandParameter="{Binding}">
+                                            <TextBlock Text="{Binding Key}" />
+                                        </Button>
+                                        <Button Grid.Column="4" Style="{StaticResource Btn.Icon}" Content="&#xE711;" Margin="6,0,0,0"
+                                                ToolTip="{DynamicResource SamFlash.ClearSlot}"
+                                                Command="{Binding DataContext.ClearSlotCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                CommandParameter="{Binding}"
+                                                Visibility="{Binding HasFile, Converter={StaticResource BoolToVis}}" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <!-- PIT -->
+                    <Grid Margin="0,9,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30" />
+                            <ColumnDefinition Width="110" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Text="PIT" FontWeight="Bold" FontSize="14" Foreground="{StaticResource Brush.Gold}" VerticalAlignment="Center" />
+                        <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding PitName}" FlowDirection="LeftToRight" HorizontalAlignment="Left" ToolTip="{Binding PitPath}" />
+                            <TextBlock Text="{DynamicResource SamFlash.PitHint}" Style="{StaticResource Text.Muted}" FontSize="11" TextWrapping="Wrap" />
+                        </StackPanel>
+                        <Button Grid.Column="3" Margin="8,0,0,0" Padding="14,5" Command="{Binding BrowsePitCommand}">
+                            <TextBlock Text="PIT" />
+                        </Button>
+                        <Button Grid.Column="4" Style="{StaticResource Btn.Icon}" Content="&#xE711;" Margin="6,0,0,0"
+                                Command="{Binding ClearPitCommand}" Visibility="{Binding HasPit, Converter={StaticResource BoolToVis}}" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <TextBlock Text="{Binding DataNotice}" TextWrapping="Wrap" FontWeight="SemiBold" Foreground="{StaticResource Brush.Warning}" Margin="0,0,0,6" />
+            <TextBlock Text="{Binding ErrorText}" Foreground="{StaticResource Brush.Error}" TextWrapping="Wrap" Margin="0,0,0,6"
+                       Visibility="{Binding ErrorText, Converter={StaticResource EmptyToCollapsed}}" />
+
+            <!-- Run -->
+            <WrapPanel Margin="0,4,0,14">
+                <Button Command="{Binding CheckCommand}" Padding="18,8" Margin="0,0,10,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE9D5;" Style="{StaticResource Text.Icon}" FontSize="14" />
+                        <TextBlock Text="{DynamicResource SamFlash.Check}" Margin="8,0,0,0" />
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource Btn.Primary}" Command="{Binding FlashCommand}" Padding="22,8">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE945;" Style="{StaticResource Text.Icon}" FontSize="14" />
+                        <TextBlock Text="{DynamicResource SamFlash.Start}" Margin="8,0,0,0" FontWeight="Bold" />
+                    </StackPanel>
+                </Button>
+            </WrapPanel>
+
+            <!-- Common errors -->
+            <Expander Header="{DynamicResource SamFlash.CommonErrors}" Margin="0,0,0,8">
+                <StackPanel Margin="4,8,0,0">
+                    <TextBlock Text="{DynamicResource SamFlash.CommonErrorsHint}" Style="{StaticResource Text.Muted}" TextWrapping="Wrap" Margin="0,0,0,8" />
+                    <ItemsControl ItemsSource="{Binding PhoneScreenErrors}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel Margin="0,3">
+                                    <TextBlock DockPanel.Dock="Left" Text="•" Foreground="{StaticResource Brush.Gold}" Margin="0,0,8,0" />
+                                    <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                </DockPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <TextBlock Text="{DynamicResource SamFlash.PcErrors}" TextWrapping="Wrap" Margin="0,10,0,0" />
+                </StackPanel>
+            </Expander>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

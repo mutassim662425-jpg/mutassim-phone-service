@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>$(EngineTargetFramework)</TargetFramework>
+    <RootNamespace>MUTASSIM.ToolPro.Serial</RootNamespace>
+    <Description>
+      Serial / AT command engine: COM channel abstraction, AT request/response parsing (OK/ERROR/+CME/+CMS/timeout),
+      extensible command sequences, and a read-only diagnostic reader. State-changing commands are modelled but never
+      executed by this engine; they are left to an authorized, documented path outside it.
+    </Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MUTASSIM.ToolPro.Core\MUTASSIM.ToolPro.Core.csproj" />
+  </ItemGroup>
+  <!-- This core engine has NO external packages: it is pure logic over the ISerialChannel abstraction,
+       so it builds and unit-tests on any platform. The real COM implementation (SystemSerialChannel, which
+       needs System.IO.Ports) lives in the Windows app project. -->
+
+</Project>

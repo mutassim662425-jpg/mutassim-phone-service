@@ -1,0 +1,114 @@
+<UserControl x:Class="MUTASSIM.ToolPro.App.Views.AtConsoleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer Style="{StaticResource PageRoot}">
+        <StackPanel MaxWidth="900" HorizontalAlignment="Left">
+            <TextBlock Text="{DynamicResource Nav.AtConsole}" Style="{StaticResource Text.H1}" />
+            <TextBlock Text="{DynamicResource AtConsole.Subtitle}" Style="{StaticResource Text.Muted}" TextWrapping="Wrap" Margin="0,4,0,16" />
+
+            <!-- Connection -->
+            <Border Style="{StaticResource Card}" Margin="0,0,0,14">
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource AtConsole.Port}" Style="{StaticResource Text.Label}" />
+                    <Grid Margin="0,4,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <ComboBox Grid.Column="0" ItemsSource="{Binding Ports}" SelectedItem="{Binding SelectedPort}"
+                                  DisplayMemberPath="Display" FlowDirection="LeftToRight" Margin="0,0,6,0"
+                                  IsEnabled="{Binding IsConnected, Converter={StaticResource BoolToVis}, ConverterParameter=invert}" />
+                        <Button Grid.Column="1" Style="{StaticResource Btn.Icon}" Content="&#xE72C;"
+                                Command="{Binding RefreshPortsCommand}" ToolTip="{DynamicResource AtConsole.Refresh}" />
+                    </Grid>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Style="{StaticResource Btn.Primary}" Command="{Binding ConnectCommand}" Padding="20,8"
+                                Visibility="{Binding IsConnected, Converter={StaticResource BoolToVis}, ConverterParameter=invert}"
+                                IsEnabled="{Binding Busy, Converter={StaticResource BoolToVis}, ConverterParameter=invert}">
+                            <TextBlock Text="{DynamicResource AtConsole.Connect}" FontWeight="Bold" />
+                        </Button>
+                        <Button Command="{Binding DisconnectCommand}" Padding="18,8"
+                                Visibility="{Binding IsConnected, Converter={StaticResource BoolToVis}}">
+                            <TextBlock Text="{DynamicResource AtConsole.Disconnect}" />
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <TextBlock Text="{Binding Info}" Foreground="{StaticResource Brush.Success}" TextWrapping="Wrap" Margin="0,0,0,6"
+                       Visibility="{Binding Info, Converter={StaticResource EmptyToCollapsed}}" />
+            <TextBlock Text="{Binding Error}" Foreground="{StaticResource Brush.Error}" TextWrapping="Wrap" Margin="0,0,0,6"
+                       Visibility="{Binding Error, Converter={StaticResource EmptyToCollapsed}}" />
+
+            <!-- Connected: diagnostics + console -->
+            <StackPanel Visibility="{Binding IsConnected, Converter={StaticResource BoolToVis}}">
+                <!-- Diagnostics -->
+                <Border Style="{StaticResource Card}" Margin="0,0,0,14">
+                    <StackPanel>
+                        <DockPanel Margin="0,0,0,8">
+                            <Button DockPanel.Dock="Right" Style="{StaticResource Btn.Gold}" Command="{Binding ReadIdentityCommand}" Padding="16,6"
+                                    IsEnabled="{Binding Busy, Converter={StaticResource BoolToVis}, ConverterParameter=invert}">
+                                <TextBlock Text="{DynamicResource AtConsole.ReadIdentity}" FontWeight="Bold" />
+                            </Button>
+                            <TextBlock Text="{DynamicResource AtConsole.Diagnostics}" Style="{StaticResource Text.H2}" VerticalAlignment="Center" />
+                        </DockPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="130" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" /><RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" /><RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="{DynamicResource AtConsole.Manufacturer}" Foreground="{StaticResource Brush.TextMuted}" Margin="0,2" />
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Manufacturer}" Margin="0,2" />
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="{DynamicResource AtConsole.Model}" Foreground="{StaticResource Brush.TextMuted}" Margin="0,2" />
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Model}" Margin="0,2" />
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="{DynamicResource AtConsole.Firmware}" Foreground="{StaticResource Brush.TextMuted}" Margin="0,2" />
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Firmware}" Margin="0,2" />
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="{DynamicResource AtConsole.Imei}" Foreground="{StaticResource Brush.TextMuted}" Margin="0,2" />
+                            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Imei}" Margin="0,2" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Console -->
+                <Border Style="{StaticResource Card}">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource AtConsole.Console}" Style="{StaticResource Text.H2}" Margin="0,0,0,4" />
+                        <TextBlock Text="{DynamicResource AtConsole.ReadOnlyNote}" Style="{StaticResource Text.Muted}" TextWrapping="Wrap" Margin="0,0,0,10" />
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Text="{Binding CommandText, UpdateSourceTrigger=PropertyChanged}" FlowDirection="LeftToRight"
+                                     FontFamily="Consolas" Margin="0,0,6,0" ToolTip="{DynamicResource AtConsole.CommandHint}" />
+                            <Button Grid.Column="1" Style="{StaticResource Btn.Primary}" Command="{Binding SendCommand}" Padding="16,6" Margin="0,0,6,0"
+                                    IsEnabled="{Binding Busy, Converter={StaticResource BoolToVis}, ConverterParameter=invert}">
+                                <TextBlock Text="{DynamicResource AtConsole.Send}" FontWeight="Bold" />
+                            </Button>
+                            <Button Grid.Column="2" Command="{Binding ClearLogCommand}" Padding="12,6">
+                                <TextBlock Text="{DynamicResource AtConsole.Clear}" />
+                            </Button>
+                        </Grid>
+                        <Border BorderBrush="{StaticResource Brush.Border}" BorderThickness="1" CornerRadius="4" Background="#0D0D0D" Height="260">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="8">
+                                <ItemsControl ItemsSource="{Binding LogLines}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding}" FontFamily="Consolas" FontSize="12"
+                                                       Foreground="{StaticResource Brush.TextMuted}" TextWrapping="Wrap" />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

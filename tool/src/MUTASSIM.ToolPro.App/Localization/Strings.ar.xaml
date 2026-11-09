@@ -350,6 +350,14 @@
     <sys:String x:Key="SamFlash.CommonErrorsHint">رسائل قد تظهر على شاشة الهاتف في وضع Download:</sys:String>
     <sys:String x:Key="SamFlash.PcErrors">أخطاء الكمبيوتر (التعريف، الكابل، USB مشغول، الجلسة، PIT غير مطابق، مجلد بأحرف غير إنجليزية) تُشرح تلقائياً في السجل عند حدوثها.</sys:String>
     <sys:String x:Key="Nav.Account">الحساب</sys:String>
+    <sys:String x:Key="Login.Subtitle">سجّل الدخول إلى حسابك لاستخدام الأداة.</sys:String>
+    <sys:String x:Key="Login.Email">البريد الإلكتروني</sys:String>
+    <sys:String x:Key="Login.Password">كلمة السر</sys:String>
+    <sys:String x:Key="Login.SignIn">تسجيل الدخول</sys:String>
+    <sys:String x:Key="Login.CreateAccount">إنشاء حساب</sys:String>
+    <sys:String x:Key="Login.NoAccount">ليس لديك حساب؟</sys:String>
+    <sys:String x:Key="Login.HaveAccount">لديك حساب بالفعل؟</sys:String>
+    <sys:String x:Key="Login.NeedEmailPass">اكتب بريداً إلكترونياً وكلمة سر 6 أحرف فأكثر.</sys:String>
     <sys:String x:Key="Account.OpenTip">الحساب والرصيد</sys:String>
     <sys:String x:Key="Account.SignedOut">غير مسجّل</sys:String>
     <sys:String x:Key="Account.Credits">رصيد</sys:String>

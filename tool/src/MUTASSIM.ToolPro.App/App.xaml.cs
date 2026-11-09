@@ -47,8 +47,19 @@ public partial class App : Application
 
             await Bootstrapper.InitializeAsync(_services);
 
+            // Sign-in gate: the tool opens only after the user signs in or creates an account.
+            // Keep the app alive while the login dialog is the only window (it is briefly Application.MainWindow).
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            var login = _services.GetRequiredService<Views.LoginWindow>();
+            if (login.ShowDialog() != true)
+            {
+                Shutdown(0);
+                return;
+            }
+
             var window = _services.GetRequiredService<MainWindow>();
             MainWindow = window;
+            ShutdownMode = ShutdownMode.OnMainWindowClose;
             window.Show();
         }
         catch (Exception ex)

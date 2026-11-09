@@ -64,7 +64,11 @@ public sealed record SamsungFirmwareFile(string Path, SamsungPart Part, SamsungB
 
     public static SamsungFirmwareFile FromPath(string path)
     {
-        var name = System.IO.Path.GetFileName(path);
+        // Take the segment after the last separator, handling BOTH '/' and '\\' regardless of the host OS.
+        // System.IO.Path.GetFileName only treats '\\' as a separator on Windows, so a Windows-style path
+        // (e.g. "C:\fw\AP_...") would otherwise fail to parse when the tool or its tests run on Linux.
+        var sep = path.LastIndexOfAny(['/', '\\']);
+        var name = sep >= 0 ? path[(sep + 1)..] : path;
         var m = NamePattern.Match(name);
         if (!m.Success) return new SamsungFirmwareFile(path, SamsungPart.Unknown, null);
 

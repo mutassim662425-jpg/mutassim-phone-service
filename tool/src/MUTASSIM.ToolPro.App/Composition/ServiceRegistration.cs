@@ -33,6 +33,7 @@ using MUTASSIM.ToolPro.MultiBrand;
 using MUTASSIM.ToolPro.Plugins;
 using MUTASSIM.ToolPro.Qualcomm;
 using MUTASSIM.ToolPro.Samsung;
+using MUTASSIM.ToolPro.Serial;
 using MUTASSIM.ToolPro.Updates;
 using MUTASSIM.ToolPro.Usb;
 using MUTASSIM.ToolPro.Xiaomi;
@@ -95,6 +96,8 @@ public static class ServiceRegistration
         services.AddSingleton<IDeviceDetector>(sp => sp.GetRequiredService<AdbDeviceDetector>());
         services.AddSingleton<IDeviceDetector>(sp => sp.GetRequiredService<FastbootDeviceDetector>());
         services.AddSingleton<IDeviceManager, DeviceManagerService>();
+        services.AddSingleton<ISerialPortEnumerator, MUTASSIM.ToolPro.App.Serial.WindowsSerialPortEnumerator>();
+        services.AddSingleton<ISerialChannelFactory, MUTASSIM.ToolPro.App.Serial.SystemSerialChannelFactory>();
         services.AddSingleton<IModuleRegistry, ModuleRegistry>();
         services.AddSingleton<IPluginService>(sp => new PluginLoader(
             paths.Plugins,
@@ -131,6 +134,7 @@ public static class ServiceRegistration
         services.AddSingleton<OperationRunner>();
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<MainWindow>();
+        services.AddTransient<MUTASSIM.ToolPro.App.Views.LoginWindow>();
 
         services.AddTransient<DashboardViewModel>();
         services.AddTransient<DeviceManagerViewModel>();
@@ -144,6 +148,8 @@ public static class ServiceRegistration
         services.AddTransient<AssistViewModel>();
         services.AddTransient<SamsungFlashViewModel>();
         services.AddTransient<AccountViewModel>();
+        services.AddTransient<AtConsoleViewModel>();
+        services.AddTransient<LoginViewModel>();
 
         return services;
     }

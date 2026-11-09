@@ -56,6 +56,16 @@ public static class BillingEndpoints
             return Results.Ok(new { success = true, token = result.Value.Token, expiresAt = result.Value.ExpiresAt, account = AccountDto.From(account!) });
         });
 
+        // Anonymous self-registration for the tool's start-up window. Creates a Technician with zero balance.
+        app.MapPost("/api/auth/register", async (LoginRequest? req) =>
+        {
+            if (req is null || string.IsNullOrWhiteSpace(req.Username))
+                return Results.BadRequest(Err(BillingError.InvalidCredentials, "Email and password are required"));
+            var result = await store.RegisterAsync(req.Username, req.Password);
+            if (!result.Ok) return Map(result.Error);
+            return Results.Ok(new { success = true, account = AccountDto.From(result.Value!) });
+        });
+
         app.MapPost("/api/auth/logout", async (HttpContext ctx) =>
         {
             var header = ctx.Request.Headers.Authorization.ToString();

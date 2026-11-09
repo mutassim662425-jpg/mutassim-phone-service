@@ -37,6 +37,14 @@ public sealed partial class AccountSession(AccountClient client, ISettingsServic
         return result.Account;
     }
 
+    /// <summary>Self-registers a new account and signs in with it, so the tool can open straight away.</summary>
+    public async Task<AccountDto> RegisterAsync(string username, string password)
+    {
+        var account = await client.RegisterAsync(Server, username, password, _cts.Token);
+        await LoginAsync(username, password);
+        return account;
+    }
+
     public async Task LogoutAsync()
     {
         try { await client.LogoutAsync(Server, _cts.Token); }
